@@ -9,7 +9,7 @@ senshu_thesis  <- function(Rmd_file, Bib_file) {
   jpa_cite(Rmd_file, Bib_file)
   tmp_rmd <- paste0("tmp_", Rmd_file)
   template_tex_file <- system.file("rmarkdown/templates/thesis_senshu/resources/senshu.tex",
-                                   package = 'senshuRmd')
+                                   package = 'psyinfr')
   format_pdf <- pdf_document(
     latex_engine = "xelatex",
     template = template_tex_file,
@@ -38,7 +38,7 @@ set_rc <- function (){
 
   # make paper.Rmd
   if(!file.exists(file.path(path, "paper/paper.Rmd"))){
-    rmarkdown::draft(paste0("paper.Rmd"), template = "thesis_senshu", package = "senshuRmd", edit = FALSE)
+    rmarkdown::draft(paste0("paper.Rmd"), template = "thesis_senshu", package = "psyinfr", edit = FALSE)
     navigateToFile(file.path(path, "paper/paper.Rmd"))
   }
 
@@ -63,10 +63,10 @@ set_rc <- function (){
     writeLines("README(function)\n\n\u3053\u3061\u3089\u306b\u89e3\u6790\u3067\u4f7f\u3046R\u95a2\u6570\u3092\u7f6e\u304d\u307e\u3059\u3002\u95a2\u6570\u5316\u3057\u305f\u3082\u306e\u306f\u5225\u306b\u307e\u3068\u3081\u3066\u304a\u3044\u305f\u307b\u3046\u304c\u4fbf\u5229\u306a\u306e\u3067\uff0c\u3053\u3061\u3089\u3092\u5229\u7528\u304f\u3060\u3055\u3044\u3002", "analysis/function/README_function.md")
   }
 
-  # make materials directory
-  if(!dir.exists(file.path(path, "materials"))){
-    dir.create(file.path(path, "materials"), showWarnings = FALSE)
-    file.create(file.path(path, "materials/README_materials.md"), showWarnings = FALSE)
+  # make material directory
+  if(!dir.exists(file.path(path, "material"))){
+    dir.create(file.path(path, "material"), showWarnings = FALSE)
+    file.create(file.path(path, "materials/README_material.md"), showWarnings = FALSE)
     writeLines("README(materials)\n\n\u7814\u7a76\u3067\u4f7f\u7528\u3057\u305f\u6750\u6599\uff08\u5b9f\u9a13\u8ab2\u984c\uff0c\u8cea\u554f\u7d19\uff0c\u5b9f\u9a13\u30fb\u8abf\u67fb\u30d7\u30ed\u30c8\u30b3\u30eb\uff0c\u502b\u7406\u7533\u8acb\u66f8\uff09\u306a\u3069\u3092\u3053\u3061\u3089\u306b\u4fdd\u7ba1\u3057\u3066\u304f\u3060\u3055\u3044\u3002", "materials/README_materials.md")
   }
 
@@ -94,7 +94,7 @@ set_rc_ccp <- function (){
 
   # make paper.Rmd
   if(!file.exists(file.path(path, "paper/paper.Rmd"))){
-    rmarkdown::draft(paste0("paper.Rmd"), template = "thesis_senshu", package = "senshuRmd", edit = FALSE)
+    rmarkdown::draft(paste0("paper.Rmd"), template = "thesis_senshu", package = "psyinfr", edit = FALSE)
     navigateToFile(file.path(path, "paper/paper.Rmd"))
   }
 
@@ -119,17 +119,24 @@ set_rc_ccp <- function (){
     writeLines("README(function)\n\n\u3053\u3061\u3089\u306b\u89e3\u6790\u3067\u4f7f\u3046R\u95a2\u6570\u3092\u7f6e\u304d\u307e\u3059\u3002\u95a2\u6570\u5316\u3057\u305f\u3082\u306e\u306f\u5225\u306b\u307e\u3068\u3081\u3066\u304a\u3044\u305f\u307b\u3046\u304c\u4fbf\u5229\u306a\u306e\u3067\uff0c\u3053\u3061\u3089\u3092\u5229\u7528\u304f\u3060\u3055\u3044\u3002", "analysis/function/README_function.md")
   }
 
+  # make high load directory
+  if(!dir.exists(file.path(path, "analysis/high_load"))){
+    dir.create(file.path(path, "analysis/high_load"), showWarnings = FALSE)
+    file.create(file.path(path, "analysis/high_load/README_high_load.md"), showWarnings = FALSE)
+    writeLines("README(high load)\n\n\u3053\u3061\u3089\u306b\u306f\uff0c\u9ad8\u8ca0\u8377\u306a\u89e3\u6790\uff08\u6570\u5206\u3067\u7d42\u308f\u3089\u306a\u3044\u89e3\u6790\u306e\u3053\u3068\u3067\u3059\uff09\u3067\u4f7f\u3046R\u95a2\u6570\u306a\u3069\u3092\u7f6e\u304d\u307e\u3059\u3002", "analysis/function/README_high_load.md")
+  }
+
   # make materials directory
-  if(!dir.exists(file.path(path, "materials"))){
+  if(!dir.exists(file.path(path, "material"))){
     dir.create(file.path(path, "materials"), showWarnings = FALSE)
     file.create(file.path(path, "materials/README_materials.md"), showWarnings = FALSE)
     writeLines("README(materials)\n\n\u7814\u7a76\u3067\u4f7f\u7528\u3057\u305f\u6750\u6599\uff08\u5b9f\u9a13\u8ab2\u984c\uff0c\u8cea\u554f\u7d19\uff0c\u5b9f\u9a13\u30fb\u8abf\u67fb\u30d7\u30ed\u30c8\u30b3\u30eb\uff0c\u502b\u7406\u7533\u8acb\u66f8\uff09\u306a\u3069\u3092\u3053\u3061\u3089\u306b\u4fdd\u7ba1\u3057\u3066\u304f\u3060\u3055\u3044\u3002", "materials/README_materials.md")
   }
 
   # make exercises directory
-  if(!dir.exists(file.path(path, "exercises"))){
-    dir.create(file.path(path, "exercises"), showWarnings = FALSE)
-    file.create(file.path(path, "exercises/README_exercises.r"), showWarnings = FALSE)
+  if(!dir.exists(file.path(path, "exercise"))){
+    dir.create(file.path(path, "exercise"), showWarnings = FALSE)
+    file.create(file.path(path, "exercises/README_exercise.r"), showWarnings = FALSE)
     writeLines("# README(exercises)\n\n# \u56fd\u91cc\u7814\u7a76\u5ba4\u3067\u884c\u3046\u6f14\u7fd2\u8ab2\u984c\u306f\uff0c\u3053\u3061\u3089\u306b\u4fdd\u5b58\u3057\u3066\u304f\u3060\u3055\u3044\u3002\n# \u4ee5\u4e0b\u3092\u5b9f\u884c\u3059\u308b\u3068exercises\u3092\u4f5c\u696d\u30d5\u30a9\u30eb\u30c0\u306b\u3067\u304d\u307e\u3059\u3002\r\nsetwd(\"exercises\")\n# exercises\u3092\u4f5c\u696d\u30d5\u30a9\u30eb\u30c0\u306b\u3057\u305f\u3046\u3048\u3067\uff0c\u6f14\u7fd2\u8ab2\u984c\u306b\u53d6\u308a\u7d44\u3093\u3067\u304f\u3060\u3055\u3044\u3002\n# \u4ee5\u4e0b\u306eset_jsPsych()\u3092\u4f7f\u3046\u3068\uff0cjsPsych\u306e\u4f5c\u696d\u30d5\u30a9\u30eb\u30c0\u3092\u4f5c\u3063\u3066\uff0c\u5fc5\u8981\u306a\u30d5\u30a1\u30a4\u30eb\u3092\u7528\u610f\u3057\u307e\u3059\u3002\njsPsychRmd::set_jsPsych(folder = 'hello')", "exercises/README_exercises.r")
   }
 
@@ -161,7 +168,7 @@ set_analysis  <- function(Rmd_file, rc = TRUE) {
   file_path <- paste0(path,"/",Rmd_file,".Rmd")
 
   if(!file.exists(file_path)){
-    path_skeleton <- system.file("rmarkdown/templates/analysis/skeleton/skeleton.Rmd",package = "senshuRmd")
+    path_skeleton <- system.file("rmarkdown/templates/analysis/skeleton/skeleton.Rmd",package = "psyinfr")
     text_skeleton <- readLines(path_skeleton, warn = F)
     tmp_rmd <- file(file_path, "w")
 

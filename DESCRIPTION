@@ -17,6 +17,9 @@ Imports:
     rmarkdown,
     rstudioapi,
     stringr,
-    utils
+    utils,
+    gitcreds,
+    usethis,
+    httr
 Remotes: 
     ykunisato/jpaRmd

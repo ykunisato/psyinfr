@@ -10,6 +10,11 @@
 set_cbat <- function(task_name = "task_name",
                      jsPsych_version = "7.1.2",
                      use_rc = TRUE){
+  # check jsPsych version
+  if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||jsPsych_version=="7.1.2"){
+  }else{
+    stop(paste0("jsPsych ",jsPsych_version," is not available!"))
+  }
   #check exercises directory
   if(use_rc == TRUE){
     dir_names_cwd =  basename(list.dirs())

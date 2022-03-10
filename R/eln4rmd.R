@@ -26,7 +26,7 @@ elnjp_md <- function(add_name = FALSE, replace_date = FALSE, rc = FALSE) {
   }
 
   # set Rmd template file
-  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "eln4Rmd")
+  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "psyinfr")
   text_skeleton <- readLines(path_skeleton, warn = F)
 
   if(rc == TRUE){
@@ -78,7 +78,7 @@ elnjp_pdf <- function(add_name = FALSE,replace_date = FALSE, rc = FALSE) {
   output_file_name <- file_name
 
   # set Rmd template file
-  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "eln4Rmd")
+  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "psyinfr")
   text_skeleton <- readLines(path_skeleton, warn = F)
 
   # set render function
@@ -112,7 +112,7 @@ elnjp_pdf <- function(add_name = FALSE,replace_date = FALSE, rc = FALSE) {
 render_elnjp_pdf <- function(Rmd_file) {
   # covert Rmd file to PDF file
   template_tex_file <- system.file("rmarkdown/templates/eln_jp/resources/eln_jp.tex",
-                                   package = "eln4Rmd")
+                                   package = "psyinfr")
   format_pdf <- pdf_document(
     latex_engine = "xelatex",
     template = template_tex_file,
