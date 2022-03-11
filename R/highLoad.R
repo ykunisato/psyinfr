@@ -1,3 +1,7 @@
+# memo 並列処理をする
+
+
+
 #' @title run high load computing and psuh to GitHub
 #' @importFrom usethis use_git_config
 #' @importFrom gitcreds gitcreds_set
