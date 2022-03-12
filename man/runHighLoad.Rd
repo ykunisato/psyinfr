@@ -12,3 +12,6 @@ runHighLoad(r_file)
 \description{
 run high load computing and psuh to GitHub
 }
+\examples{
+# runHighLoad(r_file)
+}

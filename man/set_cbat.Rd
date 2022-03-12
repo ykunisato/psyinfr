@@ -18,5 +18,5 @@ set_jsPsych prepare a file with that version of jsPsych.}
 Set template files for CBAT
 }
 \examples{
-# set_cbat("stroop")
+# set_cbat("stroop","7.1.2")
 }

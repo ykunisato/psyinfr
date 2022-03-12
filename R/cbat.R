@@ -5,7 +5,7 @@
 #' @param jsPsych_version If you set a specific version number of jsPsych,
 #'                set_jsPsych prepare a file with that version of jsPsych.
 #' @param use_rc If you don"t use the RC, set FALSE.
-#' @examples # set_cbat("stroop")
+#' @examples # set_cbat("stroop","7.1.2")
 #' @export
 set_cbat <- function(task_name = "task_name",
                      jsPsych_version = "7.1.2",

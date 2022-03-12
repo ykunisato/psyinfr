@@ -20,6 +20,7 @@ Imports:
     utils,
     gitcreds,
     usethis,
-    httr
+    httr,
+    parallel
 Remotes: 
     ykunisato/jpaRmd

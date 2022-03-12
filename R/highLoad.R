@@ -1,6 +1,17 @@
-# memo 並列処理をする
-
-
+#' @title run r files using parallel
+#' @importFrom parallel detectCores
+#' @importFrom parallel makeCluster
+#' @importFrom parallel parLapply
+#' @importFrom parallel stopCluster
+#' @param r_files set vector of r files
+#' @export
+runParallelR <- function(r_files){
+  numCores <- parallel::detectCores()
+  clusters <- parallel::makeCluster(numCores)
+  result <- parallel::parLapply(clusters, r_files, source)
+  parallel::stopCluster(clusters)
+  return(result)
+}
 
 #' @title run high load computing and psuh to GitHub
 #' @importFrom usethis use_git_config
@@ -13,6 +24,7 @@
 #' @param slack_token2 set 2nd slack API token
 #' @param slack_channel2 set 2nd channel name of slack
 #' @param slack_username2 set 2nd user name of slack
+#' @examples # setGitSlack(user_name_github, email_github, slack_token, slack_channel, slack_username)
 #' @export
 setGitSlack <- function(git_name,
                       git_email,
@@ -54,6 +66,7 @@ setGitSlack <- function(git_name,
 #' @importFrom gert git_status
 #' @importFrom httr POST
 #' @param r_file set r file to run
+#' @examples # runHighLoad(r_file)
 #' @export
 runHighLoad <- function(r_file) {
   # check argument
@@ -67,7 +80,11 @@ runHighLoad <- function(r_file) {
     stop("Please set slack_username with set_slack")
   }
   # run r file
-  source(r_file)
+  if(length(r_file)==1){
+    source(r_file)
+  }else if(length(r_file)>1){
+    psyinfr::runParallelR(r_file)
+  }
   # send message to slack
   httr::POST(url="https://slack.com/api/chat.postMessage",
              body = list(token = Sys.getenv("SLACK_TOKEN"),

@@ -35,3 +35,6 @@ setGitSlack(
 \description{
 run high load computing and psuh to GitHub
 }
+\examples{
+# setGitSlack(user_name_github, email_github, slack_token, slack_channel, slack_username)
+}

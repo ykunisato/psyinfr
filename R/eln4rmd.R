@@ -1,73 +1,3 @@
-# メモ
-# inRes()でラボノートを作る()
-# もうさかのぼって書くことは禁止にする。関数としてのシンプルさを重視する。
-# github連携しているか確認をして，最初にプルをして，それからラボノートを開く。
-
-# outRes()でラボノートをアップする
-# こちらも指定をほとんどせずに，何かあれば，エラーを返すようにする。
-# outResは，labnote内のラボノートを探してknitする（RmdとPDFが不一致を探してknit）。もしknitでエラーが出たら報告して，終了
-# outResは，OSFとGitHubにアップする。どちらかの情報がRStudioにあればそちらにアップする（両方なら両方アップする）。どちらの情報もなければエラーを出して，終了する。
-
-
-#' @title make new Japanese e-labnotebook in PDF
-#' @importFrom stringr str_detect
-#' @importFrom stringr str_replace
-#' @importFrom rstudioapi navigateToFile
-#' @param add_name If you want to add the name after the date as the file name,
-#' add this argument.
-#' @param replace_date If you want to use the specified date as the file name
-#' instead of today's date, add this argument.
-#' @param rc If you are using Research Compendium of senshuRmd,
-#' you can create a e-labnotebook file in the "labnote" directory from the current directory.
-#' In that case, please set rc to TURE.
-#' @export
-inRes <- function(add_name = FALSE,replace_date = FALSE, rc = FALSE) {
-  tmp_wd <- getwd()
-  # set file name
-  if(replace_date == FALSE){
-    date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
-    date_write <- date_name
-  }else{
-    date_name <- replace_date
-    date_write <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
-  }
-
-  if(add_name == FALSE){
-    file_name <- paste0(date_name, ".Rmd")
-  }else{
-    file_name <- paste0(date_name, "_" ,add_name, ".Rmd")
-  }
-  output_file_name <- file_name
-
-  # set Rmd template file
-  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "eln4Rmd")
-  text_skeleton <- readLines(path_skeleton, warn = F)
-
-  # set render function
-  if(rc == TRUE){
-    file_name <- paste0("labnote/",file_name)
-  }
-
-  tmp_rmd <- file(file_name, "w")
-
-  for (i in 1:length(text_skeleton)) {
-    st <- text_skeleton[i]
-    st <- str_replace(st, pattern = "output: md_document",
-                      replacement = paste0("output: eln4Rmd::render_elnjp_pdf(Rmd_file = '",output_file_name,"')"))
-    st <- str_replace(st, pattern = "# date_research",
-                      replacement = paste0("date_research <- '",date_name, "'"))
-    st <- str_replace(st, pattern = "# date_write",
-                      replacement = paste0("date_write <- '",date_write, "'"))
-    writeLines(st, tmp_rmd)
-  }
-  close(tmp_rmd)
-  navigateToFile(paste0(tmp_wd,"/", file_name))
-}
-
-
-
-
-
 #' @title render function for Japanese e-labnotebook in PDF
 #' @importFrom rmarkdown render
 #' @importFrom rmarkdown pdf_document
@@ -75,15 +5,53 @@ inRes <- function(add_name = FALSE,replace_date = FALSE, rc = FALSE) {
 #' @param Rmd_file file name of R Markdown file
 #' @export
 render_elnjp_pdf <- function(Rmd_file) {
-  # covert Rmd file to PDF file
   template_tex_file <- system.file("rmarkdown/templates/eln_jp/resources/eln_jp.tex",
-                                   package = "eln4Rmd")
+                                   package = "psyinfr")
   format_pdf <- pdf_document(
     latex_engine = "xelatex",
     template = template_tex_file,
     highlight = "tango")
   format_pdf$inherits <- "pdf_document"
   render(Rmd_file, format_pdf)
+}
+
+#' @title start research with new Japanese e-labnotebook
+#' @importFrom stringr str_detect
+#' @importFrom stringr str_replace
+#' @importFrom rstudioapi navigateToFile
+#' @importFrom gert git_fetch
+#' @param rc If you are using Research Compendium of senshuRmd,
+#' you can create a e-labnotebook file in the "labnote" directory from the current directory.
+#' In that case, please set rc to TURE.
+#' @examples # researchIn()
+#' @export
+researchIn <- function(rc = TRUE) {
+  # fetch repogitory
+  gert::git_fetch()
+  # set file name
+  tmp_wd <- getwd()
+  date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
+  file_name <- paste0(date_name, ".Rmd")
+  # set Rmd template file
+  path_skeleton <- system.file("rmarkdown/templates/eln_jp/skeleton/skeleton.Rmd",package = "psyinfr")
+  text_skeleton <- readLines(path_skeleton, warn = F)
+  # set render function
+  if(rc == TRUE){
+    file_name <- paste0("labnote/",file_name)
+  }
+  tmp_rmd <- file(file_name, "w")
+  for (i in 1:length(text_skeleton)) {
+    st <- text_skeleton[i]
+    st <- stringr::str_replace(st, pattern = "output: md_document",
+                      replacement = paste0("output: psychinfr::render_elnjp_pdf(Rmd_file = '",file_name,"')"))
+    st <- stringr::str_replace(st, pattern = "# date_research",
+                      replacement = paste0("date_research <- '",date_name, "'"))
+    st <- stringr::str_replace(st, pattern = "# date_write",
+                      replacement = paste0("date_write <- '",date_name, "'"))
+    writeLines(st, tmp_rmd)
+  }
+  close(tmp_rmd)
+  rstudioapi::navigateToFile(paste0(tmp_wd,"/", file_name))
 }
 
 #' @title upload Japanese e-labnotebook to GitHub
@@ -93,38 +61,22 @@ render_elnjp_pdf <- function(Rmd_file) {
 #' @importFrom gert git_info
 #' @importFrom gert git_status
 #' @importFrom stringr str_replace
-#' @param add_name If you want to add the name after the date as the file name,
-#' add this argument.
-#' @param replace_date If you want to use the specified date as the file name
-#' instead of today's date, add this argument.
 #' @param rc If you are using Research Compendium of senshuRmd,
 #' you can create a e-labnotebook file in the "labnote" directory from the current directory.
 #' In that case, please set rc to TURE.
+#' @examples # researchOut()
 #' @export
-up_elnjp_git  <- function(add_name = FALSE, replace_date = FALSE, rc = FALSE) {
+researchOut  <- function(rc = TRUE) {
   # make pdf firectory
   tmp_wd <- getwd()
-
   if(rc == TRUE){
     tmp_wd = paste0(tmp_wd, "/labnote")
   }
-
   if(!dir.exists(file.path(tmp_wd, "pdf"))){
     dir.create(file.path(tmp_wd, "pdf"), showWarnings = FALSE)
   }
   # set file name
-  if(replace_date == FALSE){
-    date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
-  }else{
-    date_name <- replace_date
-  }
-
-  if(add_name == FALSE){
-    file_name <- date_name
-  }else{
-    file_name <- paste0(date_name, "_" ,add_name)
-  }
-
+  file_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
   # copy PDF
   file.copy(paste0(tmp_wd,"/",file_name,".pdf"),
             paste0(tmp_wd,"/pdf/",file_name,".pdf"), overwrite = TRUE)
@@ -138,16 +90,12 @@ up_elnjp_git  <- function(add_name = FALSE, replace_date = FALSE, rc = FALSE) {
 #' @importFrom osfr osf_retrieve_node
 #' @importFrom osfr osf_upload
 #' @importFrom stringr str_replace
-#' @param add_name If you want to add the name after the date as the file name,
-#' add this argument.
-#' @param replace_date If you want to use the specified date as the file name
-#' instead of today's date, add this argument.
 #' @param eln_osf URL of pdf directory in OSF
 #' @param rc_osf If you are using Research Compendium of senshuRmd,
 #' you can create a e-labnotebook file in the "labnote" directory from the current directory.
 #' In that case, please set rc to TURE.
 #' @export
-up_elnjp_osf  <- function(add_name = FALSE, replace_date = FALSE, eln_osf = FALSE, rc_osf = FALSE){
+up2osf  <- function(eln_osf = TRUE, rc_osf = TRUE){
   # check argument
   if(missing(eln_osf) & missing(rc_osf)){
     stop("eln_osf\u304brc_osf\u306b\u5165\u529b\u3092\u3057\u3066\u304f\u3060\u3055\u3044\u3002")
@@ -158,17 +106,9 @@ up_elnjp_osf  <- function(add_name = FALSE, replace_date = FALSE, eln_osf = FALS
     tmp_wd = paste0(tmp_wd, "/labnote")
   }
   # set file name
-  if(replace_date == FALSE){
-    date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
-  }else{
-    date_name <- replace_date
-  }
+  date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
   # set file name
-  if(add_name == FALSE){
-    pdf_file_name <- paste0(date_name, ".pdf")
-  }else{
-    pdf_file_name <- paste0(date_name, "_" ,add_name, ".pdf")
-  }
+  pdf_file_name <- paste0(date_name, ".pdf")
   # upload labnote
   if(eln_osf != FALSE){
     labnote_pdf <- osf_retrieve_node(eln_osf)
