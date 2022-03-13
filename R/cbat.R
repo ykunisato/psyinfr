@@ -11,7 +11,7 @@ set_cbat <- function(task_name = "task_name",
                      jsPsych_version = "7.2.0",
                      use_rc = TRUE){
   # check jsPsych version
-  if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||jsPsych_version=="7.1.2"||jsPsych_version=="7.2.0"){
+  if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||jsPsych_version=="7.1.2"||jsPsych_version=="7.2.1"){
   }else{
     stop(paste0("jsPsych ",jsPsych_version," is not available!"))
   }
