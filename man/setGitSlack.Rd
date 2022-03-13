@@ -9,10 +9,7 @@ setGitSlack(
   git_email,
   slack_token = "FALSE",
   slack_channel = "#general",
-  slack_username = "R",
-  slack_token2 = "FALSE",
-  slack_channel2 = "#general",
-  slack_username2 = "R"
+  slack_username = "R"
 )
 }
 \arguments{
@@ -25,12 +22,6 @@ setGitSlack(
 \item{slack_channel}{set channel name of slack}
 
 \item{slack_username}{set user name of slack}
-
-\item{slack_token2}{set 2nd slack API token}
-
-\item{slack_channel2}{set 2nd channel name of slack}
-
-\item{slack_username2}{set 2nd user name of slack}
 }
 \description{
 run high load computing and psuh to GitHub
