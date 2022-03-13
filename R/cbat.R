@@ -18,8 +18,8 @@ set_cbat <- function(task_name = "task_name",
   #check exercises directory
   if(use_rc == TRUE){
     dir_names_cwd =  basename(list.dirs())
-    if(sum(dir_names_cwd == "exercises") >= 1){
-      path = paste0(getwd(),"/exercises")
+    if(sum(dir_names_cwd == "exercise") >= 1){
+      path = paste0(getwd(),"/exercise")
       dir.create(file.path(path, task_name), showWarnings = FALSE)
       path = paste0(path,"/",task_name)
     }else{
