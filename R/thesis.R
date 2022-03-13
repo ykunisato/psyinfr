@@ -66,7 +66,7 @@ set_rc <- function (){
   # make material directory
   if(!dir.exists(file.path(path, "material"))){
     dir.create(file.path(path, "material"), showWarnings = FALSE)
-    file.create(file.path(path, "materials/README_material.md"), showWarnings = FALSE)
+    file.create(file.path(path, "material/README_material.md"), showWarnings = FALSE)
     writeLines("README(materials)\n\n\u7814\u7a76\u3067\u4f7f\u7528\u3057\u305f\u6750\u6599\uff08\u5b9f\u9a13\u8ab2\u984c\uff0c\u8cea\u554f\u7d19\uff0c\u5b9f\u9a13\u30fb\u8abf\u67fb\u30d7\u30ed\u30c8\u30b3\u30eb\uff0c\u502b\u7406\u7533\u8acb\u66f8\uff09\u306a\u3069\u3092\u3053\u3061\u3089\u306b\u4fdd\u7ba1\u3057\u3066\u304f\u3060\u3055\u3044\u3002", "materials/README_materials.md")
   }
 
