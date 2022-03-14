@@ -37,9 +37,11 @@ researchIn <- function(rc = TRUE) {
   text_skeleton <- readLines(path_skeleton, warn = F)
   # set render function
   if(rc == TRUE){
-    file_name <- paste0("labnote/",file_name)
+    save_name <- paste0("labnote/",file_name)
+  }else{
+    save_name <- file_name
   }
-  tmp_rmd <- file(file_name, "w")
+  tmp_rmd <- file(save_name, "w")
   for (i in 1:length(text_skeleton)) {
     st <- text_skeleton[i]
     st <- stringr::str_replace(st, pattern = "output: md_document",
@@ -51,7 +53,7 @@ researchIn <- function(rc = TRUE) {
     writeLines(st, tmp_rmd)
   }
   close(tmp_rmd)
-  rstudioapi::navigateToFile(paste0(tmp_wd,"/", file_name))
+  rstudioapi::navigateToFile(paste0(tmp_wd,"/", save_name))
 }
 
 #' @title upload Japanese e-labnotebook to GitHub
