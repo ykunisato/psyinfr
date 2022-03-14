@@ -45,7 +45,7 @@ researchIn <- function(rc = TRUE) {
   for (i in 1:length(text_skeleton)) {
     st <- text_skeleton[i]
     st <- stringr::str_replace(st, pattern = "output: md_document",
-                      replacement = paste0("output: psychinfr::render_elnjp_pdf(Rmd_file = '",file_name,"')"))
+                      replacement = paste0("output: psyinfr::render_elnjp_pdf(Rmd_file = '",file_name,"')"))
     st <- stringr::str_replace(st, pattern = "# date_research",
                       replacement = paste0("date_research <- '",date_name, "'"))
     st <- stringr::str_replace(st, pattern = "# date_write",
