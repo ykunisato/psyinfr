@@ -74,17 +74,18 @@ researchOut  <- function(rc = TRUE) {
   if(rc == TRUE){
     tmp_wd = paste0(tmp_wd, "/labnote")
   }
+  date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
+  labnote_today <- paste0(tmp_wd,"/",date_name,".Rmd")
+  psyinfr::render_elnjp_pdf(Rmd_file = labnote_today)
   if(!dir.exists(file.path(tmp_wd, "pdf"))){
     dir.create(file.path(tmp_wd, "pdf"), showWarnings = FALSE)
   }
-  # set file name
-  file_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
   # copy PDF
-  file.copy(paste0(tmp_wd,"/",file_name,".pdf"),
-            paste0(tmp_wd,"/pdf/",file_name,".pdf"), overwrite = TRUE)
+  file.copy(paste0(tmp_wd,"/",date_name,".pdf"),
+            paste0(tmp_wd,"/pdf/",date_name,".pdf"), overwrite = TRUE)
   # add & commit & push
   git_add(git_status()$file)
-  git_commit_all(paste0(file_name, "\u306e\u30e9\u30dc\u30ce\u30fc\u30c8\u3092\u4f5c\u6210\u3057\u307e\u3057\u305f\u3002\u95a2\u9023\u3059\u308b\u30d5\u30a1\u30a4\u30eb\u3082\u30b3\u30df\u30c3\u30c8\u3057\u307e\u3059"))
+  git_commit_all(paste0(date_name, "\u306e\u30e9\u30dc\u30ce\u30fc\u30c8\u3092\u4f5c\u6210\u3057\u307e\u3057\u305f\u3002\u95a2\u9023\u3059\u308b\u30d5\u30a1\u30a4\u30eb\u3082\u30b3\u30df\u30c3\u30c8\u3057\u307e\u3059"))
   git_push()
 }
 
