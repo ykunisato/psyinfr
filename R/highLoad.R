@@ -20,7 +20,6 @@ runParallelR <- function(r_files){
 #' @param git_email set e-mail of GitHub
 #' @param slack_token set slack API token
 #' @param slack_channel set channel name of slack
-#' @param slack_username set user name of slack
 #' @examples # setGitSlack(user_name_github, email_github, slack_token, slack_channel, slack_username)
 #' @export
 setGitSlack <- function(git_name,
