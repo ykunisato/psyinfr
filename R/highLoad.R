@@ -41,8 +41,6 @@ setGitSlack <- function(git_name,
     Sys.setenv(SLACK_TOKEN=slack_token)
     Sys.setenv(SLACK_CHANNEL=slack_channel)
   }
-  # set GitHub PAT
-  gitcreds::gitcreds_set()
 }
 
 #' @title run high load computing and psuh to GitHub
