@@ -19,15 +19,14 @@ render_elnjp_pdf <- function(Rmd_file) {
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_replace
 #' @importFrom rstudioapi navigateToFile
-#' @importFrom gert git_fetch
 #' @param rc If you are using Research Compendium of senshuRmd,
 #' you can create a e-labnotebook file in the "labnote" directory from the current directory.
 #' In that case, please set rc to TURE.
 #' @examples # researchIn()
 #' @export
 researchIn <- function(rc = TRUE) {
-  # fetch repogitory
-  gert::git_fetch()
+  # Pull repogitory
+  system("git pull origin master")
   # set file name
   tmp_wd <- getwd()
   date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
@@ -57,11 +56,6 @@ researchIn <- function(rc = TRUE) {
 }
 
 #' @title upload Japanese e-labnotebook to GitHub
-#' @importFrom gert git_add
-#' @importFrom gert git_commit_all
-#' @importFrom gert git_push
-#' @importFrom gert git_info
-#' @importFrom gert git_status
 #' @importFrom stringr str_replace
 #' @param rc If you are using Research Compendium of senshuRmd,
 #' you can create a e-labnotebook file in the "labnote" directory from the current directory.
@@ -84,9 +78,11 @@ researchOut  <- function(rc = TRUE) {
   file.copy(paste0(tmp_wd,"/",date_name,".pdf"),
             paste0(tmp_wd,"/pdf/",date_name,".pdf"), overwrite = TRUE)
   # add & commit & push
-  git_add(git_status()$file)
-  git_commit_all(paste0(date_name, "\u306e\u30e9\u30dc\u30ce\u30fc\u30c8\u3092\u4f5c\u6210\u3057\u307e\u3057\u305f\u3002\u95a2\u9023\u3059\u308b\u30d5\u30a1\u30a4\u30eb\u3082\u30b3\u30df\u30c3\u30c8\u3057\u307e\u3059"))
-  git_push()
+  system("git add .")
+  system("git add -A")
+  commit_message <- paste0("git commit -a -m '", date_name,"\u306e\u30e9\u30dc\u30ce\u30fc\u30c8\u3092\u4f5c\u6210\u3057\u307e\u3057\u305f\u3002\u95a2\u9023\u3059\u308b\u30d5\u30a1\u30a4\u30eb\u3082\u30b3\u30df\u30c3\u30c8\u3057\u307e\u3059'")
+  system(commit_message)
+  system("git push -u origin master")
 }
 
 #' @title upload Japanese e-labnotebook to OSF
