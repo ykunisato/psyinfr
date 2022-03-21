@@ -23,7 +23,7 @@ set_cbat <- function(task_name = "task_name",
       dir.create(file.path(path, task_name), showWarnings = FALSE)
       path = paste0(path,"/",task_name)
     }else{
-      stop(paste("Error! Run the code in the directory where the 'exercises' directory is located."))
+      stop(paste("Error! Run the code in the directory where the 'exercise' directory is located."))
     }
   }else{
     path = getwd()
