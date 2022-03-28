@@ -1,7 +1,7 @@
 Package: psyinfr
 Type: Package
 Title: R functions as an infrastructure for psychological research
-Version: 0.0.1
+Version: 0.1.0
 Author: Yoshihiko Kunisato
 Maintainer: Yoshihiko Kunisato <ykunisato@psy.senshu-u.ac.jp>
 Description: psyinfr provides R functions that serve as the infrastructure for psychological research.
