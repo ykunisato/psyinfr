@@ -111,6 +111,7 @@ set_cbat <- function(task_name = "task_name",
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-fullscreen.js"></script>'), tmp_html)
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-html-keyboard-response.js"></script>'), tmp_html)
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-html-button-response.js"></script>'), tmp_html)
+    writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-survey-html-form.js"></script>'), tmp_html)
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-survey-likert.js"></script>'), tmp_html)
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-survey-multi-choice.js"></script>'), tmp_html)
     writeLines(paste0('  <script src="',task_name,'/jspsych/dist/plugin-survey-multi-select.js"></script>'), tmp_html)
