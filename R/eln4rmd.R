@@ -26,7 +26,7 @@ render_elnjp_pdf <- function(Rmd_file) {
 #' @export
 researchIn <- function(rc = TRUE) {
   # Pull repogitory
-  system("git pull origin master")
+  system("git pull origin main")
   # set file name
   tmp_wd <- getwd()
   date_name <- strsplit(paste0(as.POSIXlt(Sys.time(), format="%Y-%m-%d %H:%M:%S", tz="Japan")), " +")[[1]][1]
@@ -82,7 +82,7 @@ researchOut  <- function(rc = TRUE) {
   system("git add -A")
   commit_message <- paste0("git commit -a -m '", date_name,"\u306e\u30e9\u30dc\u30ce\u30fc\u30c8\u3092\u4f5c\u6210\u3057\u307e\u3057\u305f\u3002\u95a2\u9023\u3059\u308b\u30d5\u30a1\u30a4\u30eb\u3082\u30b3\u30df\u30c3\u30c8\u3057\u307e\u3059'")
   system(commit_message)
-  system("git push -u origin master")
+  system("git push -u origin main")
 }
 
 #' @title upload Japanese e-labnotebook to OSF
