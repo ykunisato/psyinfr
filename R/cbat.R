@@ -167,7 +167,7 @@ set_cbat <- function(task_name = "task_name",
     download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/demo_jspsych_run.js"),paste0(file_path,"/demo_jspsych_run.js"))
     download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/jatos_jspsych_init.js"),paste0(file_path,"/jatos_jspsych_init.js"))
     download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/jatos_jspsych_run.js"),paste0(file_path,"/jatos_jspsych_run.js"))
-    download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/jspsych/dist/plugin-survey-matrix-likert.js"),paste0(file_path,"/jspsych/plugin-survey-matrix-likert.js"))
+    download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/jspsych/plugin-survey-matrix-likert.js"),paste0(file_path,"/jspsych/dist/plugin-survey-matrix-likert.js"))
     ## make stimli directory and picture
     dir.create(file.path(file_path, "stimuli"), showWarnings = FALSE)
     stim_path <- paste0(file_path,"/stimuli")
