@@ -5,13 +5,15 @@
 #' @param jsPsych_version If you set a specific version number of jsPsych,
 #'                set_jsPsych prepare a file with that version of jsPsych.
 #' @param use_rc If you don"t use the RC, set FALSE.
-#' @examples # set_cbat("stroop","7.2.1")
+#' @examples # set_cbat("stroop","7.3.0")
 #' @export
 set_cbat <- function(task_name = "task_name",
-                     jsPsych_version = "7.2.1",
+                     jsPsych_version = "7.3.0",
                      use_rc = TRUE){
   # check jsPsych version
-  if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||jsPsych_version=="7.1.2"||jsPsych_version=="7.2.1"||jsPsych_version=="7.2.2"||jsPsych_version=="7.3.0"){
+  if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||
+     jsPsych_version=="7.1.2"||jsPsych_version=="7.2.1"||
+     jsPsych_version=="7.2.2"||jsPsych_version=="7.3.0"){
   }else{
     stop(paste0("jsPsych ",jsPsych_version," is not available!"))
   }

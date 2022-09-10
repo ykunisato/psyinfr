@@ -4,7 +4,7 @@
 \alias{set_cbat}
 \title{Set template files for CBAT}
 \usage{
-set_cbat(task_name = "task_name", jsPsych_version = "7.2.1", use_rc = TRUE)
+set_cbat(task_name = "task_name", jsPsych_version = "7.3.0", use_rc = TRUE)
 }
 \arguments{
 \item{task_name}{name of task}
@@ -18,5 +18,5 @@ set_jsPsych prepare a file with that version of jsPsych.}
 Set template files for CBAT
 }
 \examples{
-# set_cbat("stroop","7.2.1")
+# set_cbat("stroop","7.3.0")
 }
