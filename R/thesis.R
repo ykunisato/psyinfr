@@ -43,6 +43,35 @@ set_rc <- function (){
     navigateToFile(file.path(path, "paper/paper.Rmd"))
   }
 
+  # add senshuQmdWord
+  if(!dir.exists(file.path(path, "paper_word"))){
+    dir.create(file.path(path, "paper_word"), showWarnings = FALSE)
+    if(!file.exists(file.path(path, "paper_word/apa.csl"))){
+    download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/apa.csl"))
+    }
+    if(!file.exists(file.path(path, "paper_word/fig1.png"))){
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/fig1.png",paste0(path,"/paper_word/fig1.png"))
+    }
+    if(!file.exists(file.path(path, "paper_word/apa.csl"))){
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/apa.csl"))
+    }
+    if(!file.exists(file.path(path, "paper_word/paper_word.qmd"))){
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/paper_word.qmd"))
+    }
+    if(!file.exists(file.path(path, "paper_word/references.bib"))){
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/references.bib"))
+    }
+    navigateToFile(file.path(path, "paper_word/paper_word.qmd"))
+  }
+
+  if(!dir.exists(file.path(path, "paper_word/word_template"))){
+    dir.create(file.path(path, "paper_word/word_template"), showWarnings = FALSE)
+    if(!file.exists(file.path(path, "paper_word/word_template/senshu.docx"))){
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/word_template/senshu.docx",paste0(path,"/paper_word/word_template/senshu.docx"))
+    }
+  }
+
+
   # make analysis directory
   if(!dir.exists(file.path(path, "analysis"))){
     dir.create(file.path(path, "analysis"), showWarnings = FALSE)
