@@ -37,7 +37,7 @@ set_rc <- function (){
     navigateToFile(file.path(path, "README.md"))
   }
 
-  # make paper.Rmd
+  # add paper.Rmd
   if(!file.exists(file.path(path, "paper/paper.Rmd"))){
     rmarkdown::draft(paste0("paper.Rmd"), template = "thesis_senshu", package = "psyinfr", edit = FALSE)
     navigateToFile(file.path(path, "paper/paper.Rmd"))
@@ -56,10 +56,10 @@ set_rc <- function (){
       download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/apa.csl"))
     }
     if(!file.exists(file.path(path, "paper_word/paper_word.qmd"))){
-      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/paper_word.qmd"))
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/paper_word.qmd",paste0(path,"/paper_word/paper_word.qmd"))
     }
     if(!file.exists(file.path(path, "paper_word/references.bib"))){
-      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/apa.csl",paste0(path,"/paper_word/references.bib"))
+      download.file("https://raw.githubusercontent.com/ykunisato/senshuQmdWord/main/references.bib",paste0(path,"/paper_word/references.bib"))
     }
     navigateToFile(file.path(path, "paper_word/paper_word.qmd"))
   }
