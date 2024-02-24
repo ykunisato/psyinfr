@@ -185,3 +185,91 @@ set_cbat <- function(task_name = "task_name",
     download.file(paste0("https://raw.githubusercontent.com/ykunisato/template-jsPsych-task/main/template-jsPsych",substr(jsPsych_version, 1, 3),"/name_of_repository/stimuli/s2s.jpeg"),paste0(stim_path,"/s2s.jpeg"))
   }
 }
+
+
+#' @title Set template files for Phaser3
+#' @param game_name name of task
+#' @param phaser_version version of phaser
+#' @param use_rc If you don"t use the RC, set FALSE.
+#' @examples # set_phaser("game1","3.80.0",FALSE)
+#' @export
+set_phaser <- function(game_name = "game_name",
+                       phaser_version = "3.80.0",
+                       use_rc = TRUE){
+  #check exercises directory
+  if(use_rc == TRUE){
+    dir_names_cwd =  basename(list.dirs())
+    if(sum(dir_names_cwd == "exercise") >= 1){
+      path = paste0(getwd(),"/exercise")
+      dir.create(file.path(path, game_name), showWarnings = FALSE)
+      path = paste0(path,"/",game_name)
+    }else{
+      stop(paste("Error! Run the code in the directory where the 'exercise' directory is located."))
+    }
+  }else{
+    path = getwd()
+    dir.create(file.path(path, game_name), showWarnings = FALSE)
+    path = paste0(path,"/",game_name)
+  }
+  # prepare the files and directories
+  ## make -.html file
+  tmp_html <- file(file.path(path, paste0(game_name,".html")), "w")
+  writeLines("<!DOCTYPE html>", tmp_html)
+  writeLines("<html>", tmp_html)
+  writeLines(" <head>", tmp_html)
+  writeLines(paste0('  <script src="//cdn.jsdelivr.net/npm/phaser@',phaser_version,'/dist/phaser.js"></script>'), tmp_html)
+  writeLines(" </head>", tmp_html)
+  writeLines(" <body></body>", tmp_html)
+  writeLines(paste0(' <script type="text/javascript" src="',game_name,'/task.js"></script>'), tmp_html)
+  writeLines("</html>", tmp_html)
+  close(tmp_html)
+  ## make directory of repository
+  dir.create(file.path(path, game_name), showWarnings = FALSE)
+  tmp_js <- file(file.path(path, paste0(game_name,"/task.js")), "w")
+  writeLines("  class Example extends Phaser.Scene", tmp_js)
+  writeLines("  {", tmp_js)
+  writeLines("    preload ()", tmp_js)
+  writeLines("    {", tmp_js)
+  writeLines("      this.load.setBaseURL('https://labs.phaser.io');", tmp_js)
+  writeLines("      this.load.image('sky', 'assets/skies/space3.png');", tmp_js)
+  writeLines("      this.load.image('logo', 'assets/sprites/phaser3-logo.png');", tmp_js)
+  writeLines("      this.load.image('red', 'assets/particles/red.png');", tmp_js)
+  writeLines("    }", tmp_js)
+  writeLines("    create ()", tmp_js)
+  writeLines("    {", tmp_js)
+  writeLines("      this.add.image(400, 300, 'sky');", tmp_js)
+  writeLines("      const particles = this.add.particles(0, 0, 'red', {", tmp_js)
+  writeLines("        speed: 100,", tmp_js)
+  writeLines("        scale: { start: 1, end: 0 },", tmp_js)
+  writeLines("        blendMode: 'ADD'", tmp_js)
+  writeLines("      });", tmp_js)
+  writeLines("      const logo = this.physics.add.image(400, 100, 'logo');", tmp_js)
+  writeLines("      logo.setVelocity(100, 200);", tmp_js)
+  writeLines("      logo.setBounce(1, 1);", tmp_js)
+  writeLines("      logo.setCollideWorldBounds(true);", tmp_js)
+  writeLines("      particles.startFollow(logo);", tmp_js)
+  writeLines("    }", tmp_js)
+  writeLines("  }", tmp_js)
+  writeLines("  const config = {", tmp_js)
+  writeLines("    type: Phaser.AUTO,", tmp_js)
+  writeLines("    width: 800,", tmp_js)
+  writeLines("    height: 600,", tmp_js)
+  writeLines("    scene: Example,", tmp_js)
+  writeLines("    physics: {", tmp_js)
+  writeLines("      default: 'arcade',", tmp_js)
+  writeLines("      arcade: {", tmp_js)
+  writeLines("        gravity: { y: 200 }", tmp_js)
+  writeLines("      }", tmp_js)
+  writeLines("    }", tmp_js)
+  writeLines("  };", tmp_js)
+  writeLines("  const game = new Phaser.Game(config);", tmp_js)
+  close(tmp_js)
+  ## make stimli directory and picture
+  dir.create(file.path(paste0(path,"/",game_name), "stimuli"), showWarnings = FALSE)
+}
+
+
+
+
+
+
