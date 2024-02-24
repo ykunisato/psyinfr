@@ -29,13 +29,7 @@ psyinfrはrstudioとgithubの利用が前提となっていますので，rstudi
 psyinfr::set_rc()
 ```
 
-### jsPsych課題作成テンプレートの準備
 
-以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
-
-``` r
-psyinfr::set_cbat("stroop","7.3.0")
-```
 
 ### 研究ルーティン関数
 
@@ -52,6 +46,22 @@ psyinfr::researchOut()
 ```
 
 日々の研究は，researchIn()で初めて，researchOut()で終わります。なお，バックアップ先がOSFが良い場合は，up2osf()も使えます。
+
+### jsPsych課題作成テンプレートの準備
+
+以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
+
+``` r
+psyinfr::set_cbat("stroop","7.3.0")
+```
+
+### Phase3用テンプレートの準備
+
+以下のように，set_phaser("ゲーム名（英語）","Phaser3のバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます(rc=FALSEにするとカレントディレクトリー内にフォルダを作ります)。ゲーム名.htmlを開くとデモ的なものがうごきます。ゲーム名のついたフォルダ内のtask.jsファイルを編集していくとゲーム作れます。
+
+``` r
+psyinfr::set_phaser("game1","3.80.0",rc=TRUE)
+```
 
 ### 高負荷計算関数
 
