@@ -265,7 +265,7 @@ set_phaser <- function(game_name = "game_name",
   writeLines("  const game = new Phaser.Game(config);", tmp_js)
   close(tmp_js)
   ## make stimli directory and picture
-  dir.create(file.path(paste0(path,"/",game_name), "stimuli"), showWarnings = FALSE)
+  dir.create(file.path(paste0(path,"/",game_name), "assets"), showWarnings = FALSE)
 }
 
 
