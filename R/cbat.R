@@ -220,12 +220,12 @@ set_phaser <- function(game_name = "game_name",
   writeLines(paste0('  <script src="//cdn.jsdelivr.net/npm/phaser@',phaser_version,'/dist/phaser.js"></script>'), tmp_html)
   writeLines(" </head>", tmp_html)
   writeLines(" <body></body>", tmp_html)
-  writeLines(paste0(' <script type="text/javascript" src="',game_name,'/task.js"></script>'), tmp_html)
+  writeLines(paste0(' <script type="text/javascript" src="/task.js"></script>'), tmp_html)
   writeLines("</html>", tmp_html)
   close(tmp_html)
   ## make directory of repository
-  dir.create(file.path(path, game_name), showWarnings = FALSE)
-  tmp_js <- file(file.path(path, paste0(game_name,"/task.js")), "w")
+  dir.create(file.path(path), showWarnings = FALSE)
+  tmp_js <- file(file.path(path, "task.js"), "w")
   writeLines("  class Example extends Phaser.Scene", tmp_js)
   writeLines("  {", tmp_js)
   writeLines("    preload ()", tmp_js)
@@ -265,7 +265,7 @@ set_phaser <- function(game_name = "game_name",
   writeLines("  const game = new Phaser.Game(config);", tmp_js)
   close(tmp_js)
   ## make stimli directory and picture
-  dir.create(file.path(paste0(path,"/",game_name), "assets"), showWarnings = FALSE)
+  dir.create(file.path(path, "assets"), showWarnings = FALSE)
 }
 
 
