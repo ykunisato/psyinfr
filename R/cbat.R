@@ -220,7 +220,7 @@ set_phaser <- function(game_name = "game_name",
   writeLines(paste0('  <script src="//cdn.jsdelivr.net/npm/phaser@',phaser_version,'/dist/phaser.js"></script>'), tmp_html)
   writeLines(" </head>", tmp_html)
   writeLines(" <body></body>", tmp_html)
-  writeLines(paste0(' <script type="text/javascript" src="/task.js"></script>'), tmp_html)
+  writeLines(paste0(' <script type="text/javascript" src="task.js"></script>'), tmp_html)
   writeLines("</html>", tmp_html)
   close(tmp_html)
   ## make directory of repository
