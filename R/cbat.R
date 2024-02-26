@@ -8,12 +8,13 @@
 #' @examples # set_cbat("stroop","7.3.0")
 #' @export
 set_cbat <- function(task_name = "task_name",
-                     jsPsych_version = "7.3.0",
+                     jsPsych_version = "7.3.4",
                      use_rc = TRUE){
   # check jsPsych version
   if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||
      jsPsych_version=="7.1.2"||jsPsych_version=="7.2.1"||jsPsych_version=="7.2.2"||
-     jsPsych_version=="7.3.0"||jsPsych_version=="7.3.1"||jsPsych_version=="7.3.2"){
+     jsPsych_version=="7.3.0"||jsPsych_version=="7.3.1"||jsPsych_version=="7.3.2"||
+     jsPsych_version=="7.3.3"||jsPsych_version=="7.3.4"){
   }else{
     stop(paste0("jsPsych ",jsPsych_version," is not available!"))
   }
