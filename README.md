@@ -63,7 +63,7 @@ psyinfr::set_cbat("stroop", "7.3.0", use_rc = TRUE)
 psyinfr::set_phaser("game1","3.80.0",use_rc = TRUE)
 ```
 
-なお，Phase3はローカルで動作確認する場合は，ローカルサーバーが必要です。Rでもservrパッケージで簡単にローカルサーバーがたてられるので，以下を実行して表示されたURLで動作確認ができます。
+なお，Phase3はローカルで動作確認する場合は，ローカルサーバーが必要です。Rでもservrパッケージで簡単にローカルサーバーがたてられるので，以下を実行して表示されたURLで動作確認ができます（RStudioのViewerで見れるので確認が楽です）。
 
 ``` r
 servr::httd()
