@@ -8,7 +8,7 @@
 #' @examples # set_cbat("stroop","8.0.1")
 #' @export
 set_cbat <- function(task_name = "task_name",
-                     jsPsych_version = "7.3.4",
+                     jsPsych_version = "8.0.1",
                      use_rc = TRUE){
   # check jsPsych version
   if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||
