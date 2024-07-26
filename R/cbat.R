@@ -268,10 +268,10 @@ set_cbat <- function(task_name = "task_name",
 #' @param game_name name of task
 #' @param phaser_version version of phaser
 #' @param use_rc If you don"t use the RC, set FALSE.
-#' @examples # set_phaser("game1","3.80.0",FALSE)
+#' @examples # set_phaser("game1","3.80.1",FALSE)
 #' @export
 set_phaser <- function(game_name = "game_name",
-                       phaser_version = "3.80.0",
+                       phaser_version = "3.80.1",
                        use_rc = TRUE){
   #check exercises directory
   if(use_rc == TRUE){

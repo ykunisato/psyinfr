@@ -4,7 +4,7 @@
 \alias{set_phaser}
 \title{Set template files for Phaser3}
 \usage{
-set_phaser(game_name = "game_name", phaser_version = "3.80.0", use_rc = TRUE)
+set_phaser(game_name = "game_name", phaser_version = "3.80.1", use_rc = TRUE)
 }
 \arguments{
 \item{game_name}{name of task}
@@ -17,5 +17,5 @@ set_phaser(game_name = "game_name", phaser_version = "3.80.0", use_rc = TRUE)
 Set template files for Phaser3
 }
 \examples{
-# set_phaser("game1","3.80.0",FALSE)
+# set_phaser("game1","3.80.1",FALSE)
 }

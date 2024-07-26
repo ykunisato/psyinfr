@@ -49,10 +49,16 @@ psyinfr::researchOut()
 
 ### jsPsych課題作成テンプレートの準備
 
-以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
+以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。なお，デフォルトのバージョンは"8.0.1"になるので，バージョンの情報を入れないと"8.0.1"が入ります。
 
 ``` r
-psyinfr::set_cbat("stroop", "7.3.4", use_rc = TRUE)
+psyinfr::set_cbat("stroop", "8.0.1")
+```
+
+Research Compendiumを使わない場合は，以下の用にuse_rc = FALSEにします（デフォルトはTRUEです）。
+
+``` r
+psyinfr::set_cbat("stroop", "8.0.1", use_rc = FALSE)
 ```
 
 ### Phase3用テンプレートの準備
@@ -60,7 +66,13 @@ psyinfr::set_cbat("stroop", "7.3.4", use_rc = TRUE)
 以下のように，set_phaser("ゲーム名（英語）","Phaser3のバージョン")を実行すると，exerciseフォルダ内に指定したゲーム名のフォルダを作成し，必要なファイルを用意します(use_rc = FALSEにするとカレントディレクトリー内にフォルダを作ります)。ゲーム名.htmlを開くとデモ的なものがうごきます。ゲーム名のついたフォルダ内のtask.jsファイルを編集していくとゲーム作れます。
 
 ``` r
-psyinfr::set_phaser("game1","3.80.0",use_rc = TRUE)
+psyinfr::set_phaser("game1","3.80.1",use_rc = TRUE)
+```
+
+Research Compendiumを使わない場合は，以下の用にuse_rc = FALSEにします（デフォルトはTRUEです）。
+
+``` r
+psyinfr::set_phaser("game1","3.80.1",use_rc = FALSE)
 ```
 
 なお，Phase3はローカルで動作確認する場合は，ローカルサーバーが必要です。Rでもservrパッケージで簡単にローカルサーバーがたてられるので，以下を実行して表示されたURLで動作確認ができます（RStudioのViewerで見れるので確認が楽です）。
