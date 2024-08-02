@@ -118,9 +118,9 @@ set_cbat <- function(task_name = "task_name",
     writeLines(paste0('  <link href="',task_name,'/jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />'), tmp_html)
     writeLines(" </head>", tmp_html)
     writeLines(" <body></body>", tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/demo_jspsych_init.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/demo_jspsych_init.js"></script>'), tmp_html)
     writeLines(paste0(' <script type="text/javascript" src="',task_name,'/task.js"></script>'), tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/demo_jspsych_run.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/demo_jspsych_run.js"></script>'), tmp_html)
     writeLines("</html>", tmp_html)
     close(tmp_html)
     ## make -.html file
@@ -135,9 +135,9 @@ set_cbat <- function(task_name = "task_name",
     writeLines(paste0('  <link href="',task_name,'/jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />'), tmp_html)
     writeLines(" </head>", tmp_html)
     writeLines(" <body></body>", tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/jatos_jspsych_init.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_init.js"></script>'), tmp_html)
     writeLines(paste0(' <script type="text/javascript" src="',task_name,'/task.js"></script>'), tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/jatos_jspsych_run.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_run.js"></script>'), tmp_html)
     writeLines("</html>", tmp_html)
     close(tmp_html)
     ## make directory of repository
