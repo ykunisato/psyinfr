@@ -157,3 +157,26 @@ add_paperQmd <- function (){
   file.remove("paperQmd/LICENSE")
   unlink("paperQmd/style-guide", recursive = TRUE)
 }
+
+
+#' @title Add jpaQmd
+#' @examples # add_jpaQmd()
+#' @export
+add_jpaQmd <- function (){
+  # download repository
+  download.file(url = "https://github.com/ykunisato/jpaQmd/archive/refs/heads/main.zip"
+                , destfile = "main.zip")
+  # unzip
+  unzip(zipfile = "main.zip")
+  file.rename("jpaQmd-main", "jpaQmd")
+  # delete some files
+  file.remove("main.zip")
+  file.remove("jpaQmd/.gitignore")
+  file.remove("jpaQmd/.quartoignore")
+  file.remove("jpaQmd/.Rhistory")
+  file.remove("jpaQmd/README_.md")
+  file.remove("jpaQmd/README.md")
+  file.remove("jpaQmd/jpaQmd.Rproj")
+  file.remove("jpaQmd/LICENSE")
+  unlink("jpaQmd/style-guide", recursive = TRUE)
+}
