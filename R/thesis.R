@@ -133,3 +133,27 @@ set_rc <- function (){
     writeLines("# README(labnote)\r\n\r\n# \u96fb\u5b50\u30e9\u30dc\u30ce\u30fc\u30c8\u306f\u3053\u3061\u3089\u306b\u4fdd\u5b58\u3055\u308c\u307e\u3059\u3002\u4ee5\u4e0b\u3092\u5b9f\u884c\u3059\u308b\u3068\u30e9\u30dc\u30ce\u30fc\u30c8\u304c\u4f5c\u6210\u3055\u308c\u307e\u3059\u3002\r\n\r\n psyinfr::researchIn()\n# \u4ee5\u4e0b\u3092\u5b9f\u884c\u3059\u308b\u3068\uff0c\u30e9\u30dc\u30ce\u30fc\u30c8\u304c\u30b3\u30df\u30c3\u30c8\u3055\u308c\u3066GitHub\u306b\u30d7\u30c3\u30b7\u30e5\u3055\u308c\u307e\u3059\u3002\n psyinfr::researchOut()", "labnote/README_labnote.r")
   }
 }
+
+
+#' @title Add paperQmd
+#' @examples # add_paperQmd()
+#' @export
+add_paperQmd <- function (){
+  # download repository
+  download.file(url = "https://github.com/ykunisato/senshuQmd/archive/refs/heads/main.zip"
+              , destfile = "main.zip")
+  # unzip
+  unzip(zipfile = "main.zip")
+  file.rename("senshuQmd-main", "paperQmd")
+
+  # delete some files
+  file.remove("main.zip")
+  file.remove("paperQmd/.gitignore")
+  file.remove("paperQmd/.quartoignore")
+  file.remove("paperQmd/.Rhistory")
+  file.remove("paperQmd/README_.md")
+  file.remove("paperQmd/README.md")
+  file.remove("paperQmd/senshuQmd.Rproj")
+  file.remove("paperQmd/LICENSE")
+  unlink("paperQmd/style-guide", recursive = TRUE)
+}
