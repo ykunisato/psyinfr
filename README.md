@@ -52,13 +52,13 @@ psyinfr::researchOut()
 以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。なお，デフォルトのバージョンは"8.0.1"になるので，バージョンの情報を入れないと"8.0.1"が入ります。
 
 ``` r
-psyinfr::set_cbat("stroop", "8.0.1")
+psyinfr::set_cbat("stroop", "8.2.1")
 ```
 
 Research Compendiumを使わない場合は，以下の用にuse_rc = FALSEにします（デフォルトはTRUEです）。
 
 ``` r
-psyinfr::set_cbat("stroop", "8.0.1", use_rc = FALSE)
+psyinfr::set_cbat("stroop", "8.2.1", use_rc = FALSE)
 ```
 
 ### Phase3用テンプレートの準備
