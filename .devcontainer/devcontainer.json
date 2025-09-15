@@ -1,0 +1,22 @@
+{
+    "name": "${localWorkspaceFolderBasename}",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "postCreateCommand": "Rscript -e 'tinytex::install_tinytex(); tinytex::tlmgr_install(\"haranoaji\"); cmdstanr::install_cmdstan(cores = 2)'",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "quarto.quarto",
+                "TianyiShi.rmarkdown",
+                "yzhang.markdown-all-in-one",
+                "mechatroner.rainbow-csv",
+                "GrapeCity.gc-excelviewer",
+                "REditorSupport.r",
+                "REditorSupport.r-syntax",
+                "Tailscale.vscode-tailscale",
+                "janisdd.vscode-edit-csv"
+            ]
+        }
+    }
+}
