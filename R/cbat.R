@@ -4,12 +4,12 @@
 #' @param task_name name of task
 #' @param jsPsych_version If you set a specific version number of jsPsych,
 #'                set_jsPsych prepare a file with that version of jsPsych.
-#' @param use_rc If you don"t use the RC, set FALSE.
+#' @param use_rc Specify 1 as the argument if you want to create a folder with the project name and place the file inside it, 2 if you want to place the file in the current working directory, and 3 if a Research Compendium is set up.
 #' @examples # set_cbat("stroop","8.2.2")
 #' @export
 set_cbat <- function(task_name = "task_name",
                      jsPsych_version = "8.2.2",
-                     use_rc = TRUE){
+                     use_rc = 1){
   # check jsPsych version
   if(jsPsych_version=="6.3.1"||jsPsych_version=="7.1.1"||
      jsPsych_version=="7.1.2"||jsPsych_version=="7.2.1"||jsPsych_version=="7.2.2"||
@@ -24,7 +24,7 @@ set_cbat <- function(task_name = "task_name",
     stop(paste0("jsPsych ",jsPsych_version," is not available!"))
   }
   #check exercises directory
-  if(use_rc == TRUE){
+  if(use_rc == 3){
     dir_names_cwd =  basename(list.dirs())
     if(sum(dir_names_cwd == "exercise") >= 1){
       path = paste0(getwd(),"/exercise")
@@ -33,11 +33,14 @@ set_cbat <- function(task_name = "task_name",
     }else{
       stop(paste("Error! Run the code in the directory where the 'exercise' directory is located."))
     }
-  }else{
+  }else if(use_rc == 1){
     path = getwd()
     dir.create(file.path(path, task_name), showWarnings = FALSE)
     path = paste0(path,"/",task_name)
+  }else{
+    path = getwd()
   }
+
   # prepare the files and directories
   if(jsPsych_version == "6.3.1"){
     ## make demo-.html file
@@ -180,9 +183,9 @@ set_cbat <- function(task_name = "task_name",
     writeLines('    <div id="jspsych-display-element"></div>', tmp_html)
     writeLines('    <button id="finishButton">\u8abf\u67fb\u306e\u56de\u7b54\u3092\u7d42\u4e86</button>', tmp_html)
     writeLines(" </body>", tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_init.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/cema_jspsych_init.js"></script>'), tmp_html)
     writeLines(paste0(' <script type="text/javascript" src="',task_name,'/task.js"></script>'), tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_run.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/cema_jspsych_run.js"></script>'), tmp_html)
     writeLines("</html>", tmp_html)
     close(tmp_html)
     ## make directory of repository
@@ -348,9 +351,9 @@ set_cbat <- function(task_name = "task_name",
     writeLines('    <div id="jspsych-display-element"></div>', tmp_html)
     writeLines('    <button id="finishButton">\u8abf\u67fb\u306e\u56de\u7b54\u3092\u7d42\u4e86</button>', tmp_html)
     writeLines(" </body>", tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_init.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/cema_jspsych_init.js"></script>'), tmp_html)
     writeLines(paste0(' <script type="text/javascript" src="',task_name,'/task.js"></script>'), tmp_html)
-    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/jatos_jspsych_run.js"></script>'), tmp_html)
+    writeLines(paste0(' <script type="text/javascript" src="',task_name,'/init_run/cema_jspsych_run.js"></script>'), tmp_html)
     writeLines("</html>", tmp_html)
     close(tmp_html)
     ## make directory of repository

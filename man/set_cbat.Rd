@@ -4,7 +4,7 @@
 \alias{set_cbat}
 \title{Set template files for CBAT}
 \usage{
-set_cbat(task_name = "task_name", jsPsych_version = "8.2.2", use_rc = TRUE)
+set_cbat(task_name = "task_name", jsPsych_version = "8.2.2", use_rc = 1)
 }
 \arguments{
 \item{task_name}{name of task}
@@ -12,7 +12,7 @@ set_cbat(task_name = "task_name", jsPsych_version = "8.2.2", use_rc = TRUE)
 \item{jsPsych_version}{If you set a specific version number of jsPsych,
 set_jsPsych prepare a file with that version of jsPsych.}
 
-\item{use_rc}{If you don"t use the RC, set FALSE.}
+\item{use_rc}{Specify 1 as the argument if you want to create a folder with the project name and place the file inside it, 2 if you want to place the file in the current working directory, and 3 if a Research Compendium is set up.}
 }
 \description{
 Set template files for CBAT
