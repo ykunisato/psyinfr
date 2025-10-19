@@ -49,17 +49,16 @@ psyinfr::researchOut()
 
 ### jsPsych課題作成テンプレートの準備
 
-以下のように，set_cbat("認知課題名（英語）","jsPsychのバージョン")を実行すると，exerciseフォルダ内に指定した認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。なお，デフォルトのバージョンは"8.0.1"になるので，バージョンの情報を入れないと"8.0.1"が入ります。
+以下を実行すると、カレントディレクトに認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。
+特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
 
 ``` r
-psyinfr::set_cbat("stroop", "8.2.1")
+psyinfr::set_cbat("stroop", "8.2.2", use_rc = 1)
 ```
 
-Research Compendiumを使わない場合は，以下の用にuse_rc = FALSEにします（デフォルトはTRUEです）。
-
-``` r
-psyinfr::set_cbat("stroop", "8.2.1", use_rc = FALSE)
-```
+- use_rc = 1　カレントディレクトに認知課題名のフォルダを作成し、必要なjsPsych関連ファイルがダウンロードします。
+- use_rc = 2　カレントディレクトに認知課題名のフォルダを作成せずに、必要なjsPsych関連ファイルがダウンロードします。
+- use_rc = 3　psyinfrで設定するResearch Compendiumに従ってexerciseフォルダ内に指定した認知課題名のフォルダを作成し、必要なjsPsych関連ファイルがダウンロードします。
 
 ### Phase3用テンプレートの準備
 
