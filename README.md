@@ -60,6 +60,12 @@ psyinfr::set_cbat("stroop", "8.2.2", use_rc = 1)
 - use_rc = 2　カレントディレクトに認知課題名のフォルダを作成せずに、必要なjsPsych関連ファイルがダウンロードします。
 - use_rc = 3　psyinfrで設定するResearch Compendiumに従ってexerciseフォルダ内に指定した認知課題名のフォルダを作成し、必要なjsPsych関連ファイルがダウンロードします。
 
+### JATOSIFY
+
+``` r
+jatosify("mw",c("mw.html"),"3")
+```
+
 ### Phase3用テンプレートの準備
 
 以下のように，set_phaser("ゲーム名（英語）","Phaser3のバージョン")を実行すると，exerciseフォルダ内に指定したゲーム名のフォルダを作成し，必要なファイルを用意します(use_rc = FALSEにするとカレントディレクトリー内にフォルダを作ります)。ゲーム名.htmlを開くとデモ的なものがうごきます。ゲーム名のついたフォルダ内のtask.jsファイルを編集していくとゲーム作れます。
