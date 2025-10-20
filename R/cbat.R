@@ -449,15 +449,18 @@ set_cbat <- function(task_name = "task_name",
 }
 
 #' @title Create a JATOS .jzip file
-#' @description Creates a .jas file from a list of HTML files and zips all files in the CWD.
+#' @importFrom tools file_path_sans_ext
+#' @importFrom jsonlite write_json
+#' @importFrom uuid UUIDgenerate
+#' @importFrom zip zip
 #' @param study_title The title of the study. Used for filenames.
 #' @param html_file_list A vector of HTML filenames to be used as JATOS components (order is preserved).
 #' @param JATOS_version The version of the study (e.g., "3.9.0").
 #' @param study_desc A short description of the study (optional).
 #' @param study_comment Comments about the study (optional).
 #' @param output_dir The output directory for the .jzip file (defaults to the current directory).
-#'
-#' @return The path to the created .jzip file.
+#' @examples # jatosify("exp01",c("ic.html","age_gender.html","task01.html"),"3.9")
+#' @export
 jatosify <- function(study_title,
                      html_file_list,
                      JATOS_version,

@@ -47,7 +47,7 @@ psyinfr::researchOut()
 
 日々の研究は，researchIn()で初めて，researchOut()で終わります。なお，バックアップ先がOSFが良い場合は，up2osf()も使えます。
 
-### jsPsych課題作成テンプレートの準備
+### jsPsych課題作成テンプレート(JATOS用)の準備
 
 以下を実行すると、カレントディレクトに認知課題名のフォルダを作成し，必要なjsPsych関連ファイルがダウンロードされます。
 特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
@@ -62,8 +62,13 @@ psyinfr::set_cbat("stroop", "8.2.2", use_rc = 1)
 
 ### JATOSIFY
 
+「jsPsych課題作成テンプレート(JATOS用)」で作成した課題のフォルダを作業用フォルダにコピーした上で、その作業用フォルダ内で以下のコードを実行すると、JATOSにアップロード可能なJZIPファイルを作れます。
+作業用フォルダにコピーしてから作業するのは、作用フォルダ内のフォルダとファイルを丸ごと圧縮するためです。
+study_titleに実験（課題）名、html_file_listにjsPsych課題のHTMLのリスト（この順番でJATOS上の実験が行われます）,JATOS_versionにJATOSのバージョンを指定してください。
+
+
 ``` r
-jatosify("mw",c("mw.html"),"3")
+psyinfr::jatosify(study_title = "exp01", html_file_list = c("ic.html","age_gender.html","task01.html"), JATOS_version = "3.9")
 ```
 
 ### Phase3用テンプレートの準備

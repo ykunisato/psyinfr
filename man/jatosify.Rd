@@ -26,9 +26,9 @@ jatosify(
 
 \item{output_dir}{The output directory for the .jzip file (defaults to the current directory).}
 }
-\value{
-The path to the created .jzip file.
-}
 \description{
-Creates a .jas file from a list of HTML files and zips all files in the CWD.
+Create a JATOS .jzip file
+}
+\examples{
+# jatosify("exp01",c("ic.html","age_gender.html","task01.html"),"3.9")
 }
