@@ -78,6 +78,45 @@ study_titleに実験（課題）名、html_file_listにjsPsych課題のHTMLの�
 psyinfr::jatosify(study_title = "exp01", html_file_list = c("ic.html","age_gender.html","task01.html"), JATOS_version = "3.9")
 ```
 
+### JATOSの結果データの整形
+
+JATOSからエクスポートした結果データ（1行が1コンポーネントのjsPsychデータになっているテキストファイル）を，Rで解析できる形に整形します。
+
+``` r
+d <- psyinfr::readJatos("jatos_results_data_20260809054431.txt")
+d
+#> <jatos_data>
+#>   participants: 5
+#>   tasks       : ic, qnr_mood, qnr_sleep, completion_code
+```
+
+以下の3つのデータフレームがリストで返ってきます。
+
+- `d$trials`　1行が1試行。`rt`や`trial_type`などの試行レベルの変数がそのまま列になります。
+- `d$long`　1行が1つの回答項目（参加者×課題×試行×項目）。`{"mood_1":1,"mood_2":0}`のような`response`が`item`と`value`に展開され，数値に変換できるものは`value_num`にも入ります。
+- `d$wide`　1行が1参加者，1列が1項目。統計解析でよく使う形式です。
+
+``` r
+head(d$wide)
+#>   workerID approval mood_1 mood_2 mood_3 sleep_1 sleep_2 sleep_3 ...
+#> 1     1552 説明を...      1      0      1       0       2       1
+```
+
+主な引数は以下の通りです。
+
+- `format`（デフォルト`"all"`）　`"trials"`, `"long"`, `"wide"`を指定すると，そのデータフレームだけを返します。
+- `id_col`（デフォルト`"workerID"`）/ `task_col`（デフォルト`"taskName"`）　参加者と課題を識別する変数名を指定します。
+- `extra_cols`（デフォルト なし）　`d$wide`に加えたい試行レベルの列を指定します。例えば`extra_cols = "id"`とすると，完了コード（参加ID）の列が追加されます。
+- `prefix`（デフォルト`"auto"`）　`d$wide`の列名の付け方です。`"auto"`は課題間で重複する項目名（や`response`）にだけ課題名を付け，`"always"`は常に付け，`"never"`は付けません。
+- `drop_cols`（デフォルト なし）　`d$trials`から落とす列を指定します。`drop_cols = "stimulus"`とするとHTMLの長い文字列を除けます。
+
+``` r
+psyinfr::readJatos("jatos_results_data_20260809054431.txt",
+                   format = "wide", extra_cols = "id")
+```
+
+なお，1行ごとのテキスト形式だけでなく，ファイル全体がJSON配列の形式や，JATOSのメタデータ付きJSONエクスポートも読み込めます。メタデータ付きの場合は`jatos_workerId`などの列が追加されます。壊れている行はスキップして警告を出します。
+
 ### Phase3用テンプレートの準備
 
 以下のように，set_phaser("ゲーム名（英語）","Phaser3のバージョン")を実行すると，exerciseフォルダ内に指定したゲーム名のフォルダを作成し，必要なファイルを用意します(use_rc = FALSEにするとカレントディレクトリー内にフォルダを作ります)。ゲーム名.htmlを開くとデモ的なものがうごきます。ゲーム名のついたフォルダ内のtask.jsファイルを編集していくとゲーム作れます。
