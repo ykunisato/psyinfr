@@ -1,0 +1,17 @@
+project:
+  type: manuscript
+
+manuscript:
+  article: paper.qmd
+  notebooks:
+    - notebooks/Analysis_01.qmd
+    - notebooks/Data_collection.qmd
+
+format:
+  html:
+    toc: true
+  senshu-pdf: default
+  senshu-docx: default
+
+execute:
+  freeze: auto

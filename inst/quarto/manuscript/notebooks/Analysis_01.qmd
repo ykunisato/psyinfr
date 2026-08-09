@@ -1,0 +1,58 @@
+---
+title: "Analysis_01"
+author: ""
+---
+
+## この解析の目的
+
+この解析ノートブックで何を明らかにするのかを書きます。解析ごとにファイルを分けて，
+`Analysis_01.qmd`，`Analysis_02.qmd`のように解析の順番がわかる名前をつけてください。
+こちらのファイル内で実行したRの結果やプロットは、paper.qmdから読み込むことができます。
+その際にRチャンクの`label: `が重要です。
+
+## パッケージの読み込み
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(psyinfr)
+```
+
+## データの読み込み
+
+JATOSからエクスポートした結果データは，`psyinfr::readJatos()`でRで解析できる形に整形できます。
+
+```{r}
+#| label: load-data
+data <- readJatos("data/jatos_results_data.txt",format = "wide")
+```
+
+## 記述統計
+
+```{r}
+#| label: descriptives
+psych::describe(data)
+```
+
+## 解析
+
+```{r}
+#| label: analysis01
+
+```
+
+
+```{r}
+#| label: plot01
+
+```
+
+
+## 実行環境
+
+```{r}
+#| label: session-info
+sessionInfo()
+```

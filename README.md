@@ -78,6 +78,37 @@ study_titleに実験（課題）名、html_file_listにjsPsych課題のHTMLの�
 psyinfr::jatosify(study_title = "exp01", html_file_list = c("ic.html","age_gender.html","task01.html"), JATOS_version = "3.9")
 ```
 
+### Quarto Manuscriptsプロジェクトの準備
+
+論文（`paper.qmd`）と解析ノートブックをひとまとめにしたQuarto Manuscriptsプロジェクトを作成します。
+
+``` r
+psyinfr::set_manuscript()
+```
+
+以下の構成のフォルダが作られます。`paper.qmd`は[senshuQmd](https://github.com/ykunisato/senshuQmd)テンプレートのものです。
+
+```
+manuscript/
+  _quarto.yml
+  paper.qmd            論文（senshuQmdテンプレート）
+  bibliography.bib
+  figures/
+  _extensions/senshu/  senshu-pdf / senshu-docx の書式定義
+  notebooks/
+    Analysis_01.qmd    解析ノートブック（psyinfr::readJatos()でデータを読み込む例）
+    Data_collection.qmd データ収集ノートブック（cbat4rで調査を作る例）
+```
+
+`paper.qmd`を開いてRenderをクリックするか，作成されたフォルダで`quarto render`を実行すると，`_manuscript`フォルダにウェブサイト（`index.html`），PDF，Wordが出力され，ノートブックも一緒に公開されます。出力形式は`_quarto.yml`の`format`で指定しています（そのため`paper.qmd`のYAMLからは`format:`の行を外してあります）。
+
+主な引数は以下の通りです。
+
+- `project_name`（デフォルト`"manuscript"`）　作成するプロジェクトのフォルダ名です。
+- `output_dir`（デフォルト`"."`）　プロジェクトを作成する場所を指定します。
+- `add_root_dir`（デフォルト`TRUE`）　`FALSE`にすると`output_dir`直下にファイルを配置します。
+- `overwrite`（デフォルト`FALSE`）　`paper.qmd`や`_quarto.yml`が既にある場合は停止します。`TRUE`で上書きします。
+
 ### JATOSの結果データの整形
 
 JATOSからエクスポートした結果データ（1行が1コンポーネントのjsPsychデータになっているテキストファイル）を，Rで解析できる形に整形します。
