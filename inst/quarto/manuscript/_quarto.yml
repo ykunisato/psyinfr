@@ -12,7 +12,6 @@ format:
   html:
     toc: true
   senshu-pdf: default
-  senshu-docx: default
 
 execute:
   freeze: auto

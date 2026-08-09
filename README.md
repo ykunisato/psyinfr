@@ -94,13 +94,21 @@ manuscript/
   paper.qmd            論文（senshuQmdテンプレート）
   bibliography.bib
   figures/
-  _extensions/senshu/  senshu-pdf / senshu-docx の書式定義
+  _extensions/senshu/  senshu-pdf の書式定義
   notebooks/
     Analysis_01.qmd    解析ノートブック（psyinfr::readJatos()でデータを読み込む例）
     Data_collection.qmd データ収集ノートブック（cbat4rで調査を作る例）
 ```
 
-`paper.qmd`を開いてRenderをクリックするか，作成されたフォルダで`quarto render`を実行すると，`_manuscript`フォルダにウェブサイト（`index.html`），PDF，Wordが出力され，ノートブックも一緒に公開されます。出力形式は`_quarto.yml`の`format`で指定しています（そのため`paper.qmd`のYAMLからは`format:`の行を外してあります）。
+レンダーには以下を使います。`_manuscript`フォルダにウェブサイト（`index.html`）とPDF（`paper.pdf`）が出力され，ノートブックも一緒に公開されます。
+
+``` r
+psyinfr::render_manuscript("manuscript")
+```
+
+RStudioのRenderボタンは`quarto preview`を実行しますが，プレビューはプロジェクトの最初の書式（ウェブサイト）しかレンダーせず，PDFはダウンロードのリンクをクリックしたときに作られます。毎回PDFまで作りたい場合は`render_manuscript()`（中身は`quarto render`）を使ってください。プレビューを見ながら書きたい場合は`render_manuscript("manuscript", preview = TRUE)`とすると，全書式をレンダーした上でプレビューが立ち上がります。
+
+出力形式は`_quarto.yml`の`format`で指定しています（そのため`paper.qmd`のYAMLからは`format:`の行を外してあります）。また，`execute-dir: project`を指定しているので，ノートブックからもプロジェクト直下からの相対パス（`data/...`）でデータを読み込めます。
 
 主な引数は以下の通りです。
 

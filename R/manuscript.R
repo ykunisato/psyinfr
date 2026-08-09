@@ -13,7 +13,7 @@
 #'   paper.qmd            article (senshuQmd template)
 #'   bibliography.bib
 #'   figures/
-#'   _extensions/senshu/  senshu-pdf / senshu-docx formats
+#'   _extensions/senshu/  senshu-pdf format
 #'   notebooks/
 #'     Analysis_01.qmd
 #'     Data_collection.qmd
@@ -94,11 +94,54 @@ set_manuscript <- function(project_name = "manuscript",
 
   message("Quarto manuscript project was created in ",
           normalizePath(proj_dir, mustWork = FALSE), ".\n",
-          "Open paper.qmd and click Render, or run `quarto render` in that folder.")
+          "Run psyinfr::render_manuscript(\"", proj_dir,
+          "\") to build the website and the PDF.")
   if (isTRUE(open) && rstudioapi::isAvailable()) {
     rstudioapi::navigateToFile(file.path(proj_dir, "paper.qmd"))
   }
   invisible(proj_dir)
+}
+
+
+#' @title Render a Quarto Manuscripts project into all of its formats
+#' @description
+#' Runs `quarto render` in the manuscript project, which produces the website
+#' (`_manuscript/index.html`) **and** the PDF (`_manuscript/paper.pdf`).
+#'
+#' The Render button of RStudio runs `quarto preview`, and a preview renders
+#' only the first format of the project (the website), leaving the PDF to be
+#' built when its download link is clicked. Use this function when the PDF
+#' should be built every time.
+#'
+#' @param project_dir Directory of the manuscript project (the folder holding
+#'   `_quarto.yml`). Default `"."`.
+#' @param preview If `TRUE`, `quarto preview --render all` is run instead, so
+#'   that all formats are rendered and the preview server is started. Default
+#'   `FALSE`.
+#' @return The exit status of the quarto command, invisibly.
+#' @examples # render_manuscript()
+#' # render_manuscript("manuscript")
+#' @export
+render_manuscript <- function(project_dir = ".", preview = FALSE) {
+  quarto <- Sys.which("quarto")
+  if (!nzchar(quarto)) {
+    stop("The quarto command was not found. Please install Quarto ",
+         "(https://quarto.org) or use the Render button of RStudio.")
+  }
+  if (!file.exists(file.path(project_dir, "_quarto.yml"))) {
+    stop("_quarto.yml was not found in ", project_dir,
+         ". Please set project_dir to the folder of the manuscript project.")
+  }
+  old <- setwd(project_dir)
+  on.exit(setwd(old), add = TRUE)
+
+  args <- if (isTRUE(preview)) c("preview", "--render", "all") else "render"
+  status <- system2(quarto, args)
+  if (!identical(status, 0L)) {
+    warning("quarto ", paste(args, collapse = " "),
+            " exited with status ", status, ".", call. = FALSE)
+  }
+  invisible(status)
 }
 
 
