@@ -53,12 +53,19 @@ psyinfr::researchOut()
 特に設定をしなくても，その中にあるtask.jsファイルに書き込むだけでjsPsych課題が作成できます。
 
 ``` r
-psyinfr::set_cbat("stroop", "8.2.2", use_rc = 1)
+psyinfr::set_cbat("stroop", "8.2.2")
 ```
 
-- use_rc = 1　カレントワーキングディレクリーに認知課題名のフォルダを作成し、必要なjsPsych関連ファイルがダウンロードします。
-- use_rc = 2　カレントワーキングディレクリーに認知課題名のフォルダを作成せずに、必要なjsPsych関連ファイルがダウンロードします。
-- use_rc = 3　psyinfrで設定するResearch Compendiumに従ってexerciseフォルダ内に指定した認知課題名のフォルダを作成し、必要なjsPsych関連ファイルがダウンロードします。
+set_cbat()はversion 0.3.2からjsPsych課題作成テンプレートの提供を[cbat4r](https://github.com/cba-toolbox/cbat4r)パッケージに移管し、psyinfrはcbat4rの関数を再エクスポートする形になりました。それに伴い、旧`use_rc`引数は`output_dir`・`add_root_dir`引数に置き換わっています。
+
+- `output_dir`（デフォルト`"."`）　課題フォルダを作成する場所を指定します。
+- `add_root_dir`（デフォルト`TRUE`）　`TRUE`の場合はoutput_dir内に認知課題名のフォルダを作成し、その中にHTMLファイルとjsPsych関連ファイルがダウンロードされます。`FALSE`の場合はoutput_dir直下に配置されます。
+
+旧`use_rc`との対応は以下の通りです。
+
+- 旧 use_rc = 1　→　`set_cbat("stroop", "8.2.2")` (output_dir = ".", add_root_dir = TRUE)
+- 旧 use_rc = 2　→　`set_cbat("stroop", "8.2.2", add_root_dir = FALSE)`
+- 旧 use_rc = 3　→　`set_cbat("stroop", "8.2.2", output_dir = "exercise")`（exerciseフォルダが存在している必要があります）
 
 ### JATOSIFY
 

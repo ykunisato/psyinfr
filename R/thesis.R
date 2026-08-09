@@ -26,6 +26,8 @@ senshu_thesis  <- function(Rmd_file, Bib_file) {
 
 #' @title Research Compendium of Department of Psychology, Senshu University
 #' @importFrom rstudioapi navigateToFile
+#' @importFrom utils download.file
+#' @importFrom utils unzip
 #' @examples # set_rc()
 #' @export
 set_rc <- function (){
