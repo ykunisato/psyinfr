@@ -98,8 +98,10 @@ set_manuscript <- function(project_name = "manuscript",
   # .gitignore for the Quarto outputs
   gitignore <- file.path(proj_dir, ".gitignore")
   if (!file.exists(gitignore)) {
-    writeLines(c("/.quarto/", "/_manuscript/", ".Rproj.user", ".Rhistory",
-                 ".DS_Store"), gitignore)
+    writeLines(c("/.quarto/", "/_manuscript/", "/site_libs/",
+                 # copies of the format resources left by the PDF render
+                 "/jpa.bbx", "/jpa.cbx", "/jpa.dbx",
+                 ".Rproj.user", ".Rhistory", ".DS_Store"), gitignore)
   }
 
   message("Quarto manuscript project was created in ",

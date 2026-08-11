@@ -104,6 +104,8 @@ manuscript/
 
 `data`フォルダにはJATOS形式のデモデータが入っており，`Analysis_01.qmd`がそれを読み込むようになっています。そのためプロジェクトを作った直後でもレンダーが通ります。自分のデータが集まったら`data`フォルダに置いて，`Analysis_01.qmd`のファイル名を書き換えてください。
 
+`Analysis_01.qmd`には，senshuQmdテンプレートと同じような解析の例（記述統計，相関，ヒストグラム，t検定と効果量，平均値の棒グラフ，クロス集計とカイ二乗検定，重回帰分析）と，その結果を`paper.qmd`に埋め込む方法の解説が入っています。実行には`knitr`，`tidyverse`，`psych`，`jtools`，`ggsignif`，`effsize`が必要です。
+
 レンダーには以下を使います。`_manuscript`フォルダにウェブサイト（`index.html`）とPDF（`paper.pdf`）が出力され，ノートブックも一緒に公開されます。
 
 ``` r

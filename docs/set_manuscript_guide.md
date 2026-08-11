@@ -11,7 +11,7 @@ Quarto Manuscriptsでは、役割ごとにファイルを分けます。
 | ファイル | 役割 |
 | --- | --- |
 | `paper.qmd` | 論文本文。文章を書く場所。解析はここでやらない |
-| `notebooks/Data_collection.qmd` | データ収集の記録。cbat4rで調査を作るコード |
+| `notebooks/Data_collection.qmd` | データ収集の記録。cbat4rで調査を作るコード（`eval: false`にしてあるので、レンダーしても実行されません） |
 | `notebooks/Analysis_01.qmd` | 解析。図や表はここで作る |
 | `_quarto.yml` | プロジェクト全体の設定（出力形式、ノートブックの一覧） |
 
@@ -65,6 +65,24 @@ manuscript/
 ```
 
 `paper.qmd` は [senshuQmd](https://github.com/ykunisato/senshuQmd) テンプレートをダウンロードしたものです。専修大学人間科学部心理学科の卒論・修論の書式で出力されます。
+
+### Analysis_01.qmd に入っている解析例
+
+`Analysis_01.qmd` には、senshuQmdテンプレートと同じような解析の例が、デモデータを使った形で入っています。自分の解析に置き換える際のひな形として使ってください。
+
+| 見出し | 内容 | ラベル |
+| --- | --- | --- |
+| 記述統計 | `psych::describe()` の結果を `kable()` で表に | `tbl-descriptives` |
+| 相関 | `psych::corr.test()` の相関行列 | `tbl-correlation` |
+| ヒストグラム | `ggplot()` + `theme_apa()` | `fig-histogram` |
+| 平均値の比較 | Welchのt検定と効果量（Hedgesの $g$ ） | `ttest` |
+| 平均値の図示 | 棒グラフ＋標準誤差＋有意差の記号（`geom_signif()`） | `fig-mean` |
+| クロス集計とカイ二乗検定 | `table()` と `chisq.test()` | `tbl-crosstab`、`chisq` |
+| 重回帰分析 | `lm()` の結果を表に | `tbl-regression` |
+
+実行には `knitr`、`tidyverse`、`psych`、`jtools`、`ggsignif`、`effsize` が必要です（senshuQmdの `paper.qmd` が読み込んでいるものとほぼ同じです）。入っていない場合は `install.packages()` で入れてください。
+
+図の中の日本語が □ になる場合は、`setup` チャンクにある `jp_font` を、自分のパソコンに入っている日本語フォント名に変えてください（macOSは `HiraginoSans-W3`、Windowsは `Yu Gothic` を初期値にしてあります）。
 
 > 補足：`paper.qmd` のYAMLから `format:` の行を外してあります。Manuscriptsプロジェクトでは出力形式を `_quarto.yml` 側でまとめて指定するためです。`paper.qmd` のYAMLには `title` と `author` だけ書き換えてください。
 
@@ -149,7 +167,7 @@ knitr::kable(psych::describe(data))
 - `fig-cap:` `tbl-cap:` を書き忘れると、キャプションのない図表になり、番号もつきません。
 - ラベルは **プロジェクト全体で重複させない** でください（`Analysis_01.qmd` と `Analysis_02.qmd` で同じラベルはNG）。
 - ラベルに使えるのは半角英数字とハイフン、アンダースコアです。日本語は使えません。
-- `psyinfr::set_manuscript()` が用意する `Analysis_01.qmd` には `descriptives` `plot01` といったラベルが最初から入っています。埋め込みたくなったら `tbl-descriptives` `fig-plot01` のように先頭を付け替えてください。
+- `set_manuscript()` が用意する `Analysis_01.qmd` には、`tbl-descriptives` `fig-histogram` のように最初から埋め込める形のラベルがついています。自分の解析に置き換えるときも、この付け方をまねてください。
 
 ### 4-2. ステップ②：paper.qmd にショートコードを書く
 
@@ -180,7 +198,7 @@ knitr::kable(psych::describe(data))
 
 これで本文に番号が入り、クリックすると図表に飛びます。参照はショートコードより前に書いても後に書いても構いません。
 
-なお、初期設定では番号が `Figure 1` `Table 1` と英語で表示されます。「図1」「表1」にする方法は付録を見てください。
+番号は「図1」「表1」と日本語で表示されます（`_quarto.yml` に `lang: ja` を指定しているためです）。
 
 ### 4-4. まとめた実例
 
@@ -340,12 +358,12 @@ project:
 
 ---
 
-## 付録：「Figure 1」を「図1」と表示する
+## 付録：図表番号の言語
 
-デフォルトでは図表の番号が `Figure 1` `Table 1` と英語で表示されます。日本語にしたい場合は、`_quarto.yml` の末尾に次の1行を追加してレンダーし直してください。
+`_quarto.yml` に `lang: ja` を指定しているので、図表の番号は「図 1」「表 1」と日本語で表示されます。
 
 ```yaml
 lang: ja
 ```
 
-`図 1` `表 1` と表示されるようになります。
+英語で `Figure 1` `Table 1` と表示したい場合は、この行を消してレンダーし直してください。
