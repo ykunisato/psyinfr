@@ -23,17 +23,19 @@ library(psyinfr)
 ## データの読み込み
 
 JATOSからエクスポートした結果データは，`psyinfr::readJatos()`でRで解析できる形に整形できます。
+`data`フォルダには動作確認用のデモデータ（100名分）が入っているので，自分のデータが集まったら
+`data`フォルダに置いて，ファイル名を書き換えてください。
 
 ```{r}
 #| label: load-data
-# data <- readJatos("data/jatos_results_data.txt",format = "wide")
+data <- readJatos("data/jatos_results_data_demo.txt", format = "wide")
 ```
 
 ## 記述統計
 
 ```{r}
 #| label: descriptives
-# psych::describe(data)
+psych::describe(data)
 ```
 
 ## 解析

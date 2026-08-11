@@ -98,7 +98,11 @@ manuscript/
   notebooks/
     Analysis_01.qmd    解析ノートブック（psyinfr::readJatos()でデータを読み込む例）
     Data_collection.qmd データ収集ノートブック（cbat4rで調査を作る例）
+  data/
+    jatos_results_data_demo.txt  動作確認用のデモデータ（100名分）
 ```
+
+`data`フォルダにはJATOS形式のデモデータが入っており，`Analysis_01.qmd`がそれを読み込むようになっています。そのためプロジェクトを作った直後でもレンダーが通ります。自分のデータが集まったら`data`フォルダに置いて，`Analysis_01.qmd`のファイル名を書き換えてください。
 
 レンダーには以下を使います。`_manuscript`フォルダにウェブサイト（`index.html`）とPDF（`paper.pdf`）が出力され，ノートブックも一緒に公開されます。
 

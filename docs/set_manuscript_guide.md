@@ -59,6 +59,8 @@ manuscript/
 ├── notebooks/
 │   ├── Analysis_01.qmd
 │   └── Data_collection.qmd
+├── data/
+│   └── jatos_results_data_demo.txt   動作確認用のデモデータ（100名分）
 └── .gitignore
 ```
 
@@ -296,22 +298,23 @@ manuscript:
 
 ## 5. データの置き場所
 
-解析用のデータは、プロジェクト内に `data` フォルダを作って置くのがおすすめです。
+解析用のデータは `data` フォルダに置きます。このフォルダは `set_manuscript()` が作り、動作確認用のデモデータ（JATOS形式・100名分）が最初から入っています。`Analysis_01.qmd` がそれを読み込むようになっているので、**プロジェクトを作った直後でもそのままレンダーできます**。
 
 ```
 manuscript/
 ├── data/
-│   └── jatos_results_data_20260809054431.txt
+│   └── jatos_results_data_demo.txt
 └── notebooks/
     └── Analysis_01.qmd
 ```
 
-ノートブックからは、**プロジェクト直下からの相対パス**で読み込めます。`notebooks` フォルダの中にあるファイルからでも `../data/` とは書きません。
+自分のデータが集まったら、JATOSからエクスポートしたファイルを同じ `data` フォルダに置き、`Analysis_01.qmd` のファイル名を書き換えてください。
 
 ```r
-d <- psyinfr::readJatos("data/jatos_results_data_20260809054431.txt")
-data <- d$wide
+data <- readJatos("data/jatos_results_data_demo.txt", format = "wide")
 ```
+
+パスの書き方は、**プロジェクト直下からの相対パス**です。`notebooks` フォルダの中にあるファイルからでも `../data/` とは書きません。
 
 これは `_quarto.yml` に次の設定が入っているためです。この設定があると、ノートブックも論文本文も、プロジェクトのルートを作業ディレクトリとしてRのコードが実行されます。消してしまうと `notebooks` フォルダが作業ディレクトリになり、データが読み込めなくなるので注意してください。
 
@@ -329,7 +332,7 @@ project:
 
 1. `psyinfr::set_manuscript()` でプロジェクトを作る
 2. `notebooks/Data_collection.qmd` を書き換えて、cbat4rで調査・実験を作る（JATOSにアップロード）
-3. データを集めて、JATOSからエクスポートしたファイルを `data/` に置く
+3. データを集めて、JATOSからエクスポートしたファイルを `data/` に置く（デモデータと差し替える）
 4. `notebooks/Analysis_01.qmd` で `psyinfr::readJatos()` を使ってデータを整形し、解析する
 5. 図表のチャンクに `fig-` `tbl-` で始まるラベルとキャプションをつける
 6. `paper.qmd` に文章を書き、`{{< embed ... >}}` で図表を埋め込み、`@fig-xxx` で参照する

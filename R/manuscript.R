@@ -17,12 +17,14 @@
 #'   notebooks/
 #'     Analysis_01.qmd
 #'     Data_collection.qmd
+#'   data/
+#'     jatos_results_data_demo.txt
 #' ```
 #'
 #' `Data_collection.qmd` holds an example of building an online survey with
 #' \pkg{cbat4r} (`set_ic()`, `set_qnr()`, `set_cc()`, `jatosify()`) in an R
-#' chunk, and `Analysis_01.qmd` an analysis skeleton that reads the collected
-#' JATOS data with [readJatos()].
+#' chunk, and `Analysis_01.qmd` an analysis skeleton that reads the demo data
+#' in `data/` with [readJatos()], so that the project renders as it is.
 #'
 #' @importFrom utils download.file unzip
 #' @importFrom rstudioapi navigateToFile isAvailable
@@ -84,6 +86,14 @@ set_manuscript <- function(project_name = "manuscript",
   notebooks <- c("Analysis_01.qmd", "Data_collection.qmd")
   file.copy(file.path(skeleton, "notebooks", notebooks),
             file.path(proj_dir, "notebooks"), overwrite = TRUE)
+
+  # data directory with the demo data of JATOS
+  data_dir <- file.path(skeleton, "data")
+  if (dir.exists(data_dir)) {
+    dir.create(file.path(proj_dir, "data"), showWarnings = FALSE)
+    file.copy(list.files(data_dir, full.names = TRUE),
+              file.path(proj_dir, "data"), overwrite = isTRUE(overwrite))
+  }
 
   # .gitignore for the Quarto outputs
   gitignore <- file.path(proj_dir, ".gitignore")

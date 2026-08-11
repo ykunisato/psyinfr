@@ -51,12 +51,14 @@ The layout created is:
   notebooks/
     Analysis_01.qmd
     Data_collection.qmd
+  data/
+    jatos_results_data_demo.txt
 }\if{html}{\out{</div>}}
 
 \code{Data_collection.qmd} holds an example of building an online survey with
 \pkg{cbat4r} (\code{set_ic()}, \code{set_qnr()}, \code{set_cc()}, \code{jatosify()}) in an R
-chunk, and \code{Analysis_01.qmd} an analysis skeleton that reads the collected
-JATOS data with \code{\link[=readJatos]{readJatos()}}.
+chunk, and \code{Analysis_01.qmd} an analysis skeleton that reads the demo data
+in \verb{data/} with \code{\link[=readJatos]{readJatos()}}, so that the project renders as it is.
 }
 \examples{
 # set_manuscript()
