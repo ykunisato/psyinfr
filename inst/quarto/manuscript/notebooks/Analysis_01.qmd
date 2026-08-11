@@ -5,11 +5,10 @@ author: ""
 
 ## この解析の目的
 
-この解析ノートブックで何を明らかにするのかを書きます。解析ごとにファイルを分けて，
-`Analysis_01.qmd`，`Analysis_02.qmd`のように解析の順番がわかる名前をつけてください。
+この解析ノートブックで何を明らかにするのかを書きます。必要に応じて、解析ごとにファイルを分けて，
+`Analysis_01.qmd`，`Analysis_02.qmd`のように解析の順番がわかる名前をつけてください（一般的な調査研究の卒論の場合は`Analysis_01.qmd`だけで大丈夫です）。
 
-以下は，同梱のデモデータ（`data/jatos_results_data_demo.txt`，100名分）を使った解析の例です。
-自分のデータと解析にあわせて書き換えてください。
+以下は，同梱のデモデータ（`data/jatos_results_data_demo.txt`，100名分）を使った解析の例です。卒論・修論では、自分のデータをdataフォルダにおいた上で、読み込みファイル名などを変更した上で解析にあわせて書き換えてください。
 
 ## 論文本体への結果の埋め込み方
 
@@ -24,7 +23,7 @@ author: ""
 - ラベルはプロジェクト全体で重複させない（半角英数字とハイフンのみ）
 
 ラベルをつけたら，`paper.qmd`の結果を書きたい場所に次のように書きます。
-`@`のついた参照は「図1」「表1」のような番号つきのリンクになり，番号は自動で振られます。
+`@`のついた参照は「Figure 1」「Table 1」のような番号つきのリンクになり，番号は自動で振られます。
 
 ```
 参加者の記述統計を @tbl-descriptives に示す。
@@ -34,16 +33,15 @@ author: ""
 気分得点の分布を @fig-histogram に示す。
 
 {{< embed notebooks/Analysis_01.qmd#fig-histogram >}}
+
 ```
 
 埋め込みで気をつける点です。
 
 - ショートコードは段落として独立した行に書きます（前後に空行を入れる）。
 - 同じラベルを2か所に埋め込むと番号が二重に振られるので，1つのセルの埋め込みは1か所だけにします。
-- 表は`kable()`に`format = "latex"`を指定しないでください。このノートブックはHTMLでレンダーされるので，
-  LaTeXを直接書き出すと表示が壊れます。書式を指定しなければ，PDFでもHTMLでもきれいな表になります。
-- 数値をひとつだけ本文に入れたいときは，`paper.qmd`のRチャンクで計算するか，
-  その数値を出力する小さなセルを作って埋め込みます。
+- 表は`kable()`に`format = "latex"`を指定しないでください。このノートブックはHTMLでレンダーされるので，LaTeXを直接書き出すと表示が壊れます。書式を指定しなければ，PDFでもHTMLでもきれいな表になります。
+- 数値をひとつだけ本文に入れたいときは，`paper.qmd`のRチャンクで計算するか，その数値を出力する小さなセルを作って埋め込みます。
 
 ## パッケージの読み込み
 
@@ -64,7 +62,25 @@ library(psyinfr)
 jp_font <- switch(Sys.info()[["sysname"]],
                   Darwin = "HiraginoSans-W3",
                   Windows = "Yu Gothic",
-                  "Noto Sans CJK JP")
+                  # Linuxなどでは環境によって入っている日本語フォントが違うので，
+                  # 候補のうち実際にインストールされているものを使う。
+                  # 1つも入っていない場合は，日本語フォントを入れてください
+                  # （Ubuntu/Debianなら sudo apt install fonts-noto-cjk）。
+                  {
+                    cand <- c("Noto Sans CJK JP", "Noto Sans JP", "IPAexGothic",
+                              "IPAPGothic", "TakaoPGothic", "VL PGothic")
+                    have <- if (requireNamespace("systemfonts", quietly = TRUE)) {
+                      systemfonts::system_fonts()$family
+                    } else if (nzchar(Sys.which("fc-list"))) {
+                      unlist(strsplit(
+                        suppressWarnings(system2("fc-list", c(":lang=ja", "family"),
+                                                 stdout = TRUE, stderr = FALSE)),
+                        ","))
+                    } else {
+                      character(0)
+                    }
+                    c(cand[cand %in% trimws(have)], cand)[1]
+                  })
 ```
 
 ## データの読み込み
