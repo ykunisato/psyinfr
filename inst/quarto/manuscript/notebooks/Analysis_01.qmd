@@ -91,7 +91,15 @@ JATOSからエクスポートした結果データは，`psyinfr::readJatos()`�
 
 ```{r}
 #| label: load-data
-data <- readJatos("data/jatos_results_data_demo.txt", format = "wide")
+# レンダーの仕方によって，作業ディレクトリがプロジェクト直下になる場合と，
+# このファイルがあるnotebooksフォルダになる場合があります。どちらでも
+# 読み込めるように，見つからなければ1つ上の階層を見に行きます。
+data_file <- "data/jatos_results_data_demo.txt"
+if (!file.exists(data_file)) {
+  data_file <- file.path("..", data_file)
+}
+
+data <- readJatos(data_file, format = "wide")
 
 # 尺度ごとに合計得点を作り，解析に使う変数だけにする
 data <- data |>

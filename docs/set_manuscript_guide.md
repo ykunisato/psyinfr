@@ -284,6 +284,21 @@ summary(model)
 
 同じラベルのセルを2か所に埋め込むと、同じ図に別々の番号が振られ、`@fig-xxx` のリンク先もずれます。**1つのセルの埋め込みは1か所だけ**にしてください。同じ図を2回見せたい場合は、ノートブック側でセルを分けて別のラベルをつけます。
 
+**`File not found: data/...` と出てレンダーが止まる**
+
+`paper.qmd` だけをレンダーすると、埋め込みのためにノートブックが単体で実行され、そのときだけ作業ディレクトリが `notebooks` フォルダになります。そのため `data/...` のパスが合わなくなります。テンプレートの `Analysis_01.qmd` は、見つからなければ1つ上の階層を探すようにしてあるので両方で動きます。自分でデータを読み込むコードを書くときも、同じ書き方をしてください。
+
+```r
+data_file <- "data/自分のデータ.txt"
+if (!file.exists(data_file)) {
+  data_file <- file.path("..", data_file)
+}
+```
+
+**`Rendering of output notebook produced an unexpected result` と出る**
+
+一度もプロジェクト全体をレンダーしていない状態で `paper.qmd` だけをレンダーすると、Quartoがノートブックのパスを取り違えて（`notebooks/notebooks/...` を探しにいって）失敗します。**最初のレンダーは必ず `psyinfr::render_manuscript()` で行ってください。** 一度全体をレンダーすれば `_freeze` に結果が残るので、その後はRStudioのRenderボタンでも通るようになります。
+
 **PDFに図表が入らない／PDFが更新されない**
 
 RStudioのRenderボタン（プレビュー）はウェブサイトだけを作ります。PDFを確認するときは `psyinfr::render_manuscript()` を使ってください。
