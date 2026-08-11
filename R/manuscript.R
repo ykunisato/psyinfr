@@ -125,16 +125,23 @@ set_manuscript <- function(project_name = "manuscript",
 #' built when its download link is clicked. Use this function when the PDF
 #' should be built every time.
 #'
+#' When the render succeeds, `_manuscript/index.html` is opened in the browser.
+#'
+#' @importFrom utils browseURL
 #' @param project_dir Directory of the manuscript project (the folder holding
 #'   `_quarto.yml`). Default `"."`.
 #' @param preview If `TRUE`, `quarto preview --render all` is run instead, so
 #'   that all formats are rendered and the preview server is started. Default
 #'   `FALSE`.
+#' @param open If `TRUE` (default), `_manuscript/index.html` is opened in the
+#'   browser after a successful render. Ignored when `preview = TRUE`, because
+#'   the preview server opens a browser by itself.
 #' @return The exit status of the quarto command, invisibly.
 #' @examples # render_manuscript()
 #' # render_manuscript("manuscript")
 #' @export
-render_manuscript <- function(project_dir = ".", preview = FALSE) {
+render_manuscript <- function(project_dir = ".", preview = FALSE,
+                              open = TRUE) {
   quarto <- Sys.which("quarto")
   if (!nzchar(quarto)) {
     stop("The quarto command was not found. Please install Quarto ",
@@ -152,6 +159,17 @@ render_manuscript <- function(project_dir = ".", preview = FALSE) {
   if (!identical(status, 0L)) {
     warning("quarto ", paste(args, collapse = " "),
             " exited with status ", status, ".", call. = FALSE)
+    return(invisible(status))
+  }
+
+  # show the rendered manuscript
+  if (isTRUE(open) && !isTRUE(preview)) {
+    index <- file.path("_manuscript", "index.html")
+    if (file.exists(index)) {
+      browseURL(normalizePath(index))
+    } else {
+      warning(index, " was not found, so nothing was opened.", call. = FALSE)
+    }
   }
   invisible(status)
 }

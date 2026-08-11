@@ -154,6 +154,29 @@ jatosify(
 )
 ```
 
+```{r}
+#| label: demo-links
+#| echo: false
+#| output: asis
+# 上のコードを実行して課題を作ってあれば，そのデモ（demo_XXX.html）へのリンクを並べる。
+# まだ作っていない（フォルダが無い）場合は，何も表示されない。
+survey_dir <- file.path("survey", "survey")
+if (!dir.exists(survey_dir)) {
+  survey_dir <- file.path("..", survey_dir)
+}
+demos <- sort(Sys.glob(file.path(survey_dir, "demo_*.html")))
+
+if (length(demos) > 0) {
+  task <- sub("^demo_", "", sub("[.]html$", "", basename(demos)))
+  knitr::asis_output(paste0(
+    "## 作成した課題のデモ\n\n",
+    "以下のリンクから，作成した課題を実際に動かして確認できます。\n\n",
+    paste0("- [", task, "](../survey/survey/", basename(demos), ")",
+           collapse = "\n"),
+    "\n"))
+}
+```
+
 ## 収集したデータ
 
 JATOSからエクスポートした結果データの置き場所と，参加者数や除外の基準などを書きます。

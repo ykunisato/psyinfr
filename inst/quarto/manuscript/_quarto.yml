@@ -7,6 +7,10 @@ manuscript:
   notebooks:
     - notebooks/Analysis_01.qmd
     - notebooks/Data_collection.qmd
+  # cbat4rで作成した課題を，デモを動かせる形でサイトに含める。
+  # フォルダが無い場合は何も起きない。課題のフォルダ名を変えたときはここも変える。
+  resources:
+    - survey/survey/**
 
 format:
   html:

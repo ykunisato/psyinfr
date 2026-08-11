@@ -4,7 +4,7 @@
 \alias{render_manuscript}
 \title{Render a Quarto Manuscripts project into all of its formats}
 \usage{
-render_manuscript(project_dir = ".", preview = FALSE)
+render_manuscript(project_dir = ".", preview = FALSE, open = TRUE)
 }
 \arguments{
 \item{project_dir}{Directory of the manuscript project (the folder holding
@@ -13,6 +13,10 @@ render_manuscript(project_dir = ".", preview = FALSE)
 \item{preview}{If \code{TRUE}, \verb{quarto preview --render all} is run instead, so
 that all formats are rendered and the preview server is started. Default
 \code{FALSE}.}
+
+\item{open}{If \code{TRUE} (default), \verb{_manuscript/index.html} is opened in the
+browser after a successful render. Ignored when \code{preview = TRUE}, because
+the preview server opens a browser by itself.}
 }
 \value{
 The exit status of the quarto command, invisibly.
@@ -25,6 +29,8 @@ The Render button of RStudio runs \verb{quarto preview}, and a preview renders
 only the first format of the project (the website), leaving the PDF to be
 built when its download link is clicked. Use this function when the PDF
 should be built every time.
+
+When the render succeeds, \verb{_manuscript/index.html} is opened in the browser.
 }
 \examples{
 # render_manuscript()

@@ -90,11 +90,13 @@ manuscript/
 
 ## 3. レンダーして出力を確認する
 
-ConsoleでRの関数を実行します。ウェブサイトとPDFの両方が作られます。
+ConsoleでRの関数を実行します。ウェブサイトとPDFの両方が作られ、できあがったウェブサイト（`_manuscript/index.html`）がブラウザで開きます。
 
 ```r
 psyinfr::render_manuscript("manuscript")
 ```
+
+ブラウザを開かずにレンダーだけしたい場合は `open = FALSE` を指定してください。
 
 書きながらブラウザで確認したいときは、`preview = TRUE` にするとプレビューのサーバーが立ち上がります（止めるときはConsoleでEscキー）。
 
@@ -361,10 +363,38 @@ project:
 
 ---
 
-## 6. 執筆の流れ（まとめ）
+## 6. 作成した課題のデモをサイトに載せる
+
+`Data_collection.qmd` のコードを実行して課題を作ると、`survey/survey` フォルダに `demo_ic.html` のような**デモ用のHTML**ができます。レンダーすると、これらへのリンクが `Data_collection.qmd` のページ（Notebooksの中）に自動で並びます。読者がクリックすれば、実際の課題をその場で動かせます。
+
+```
+## 作成した課題のデモ
+
+以下のリンクから，作成した課題を実際に動かして確認できます。
+
+- completion_code
+- ic
+- qnr_mood
+- qnr_sleep
+```
+
+仕組みは2つです。どちらも `set_manuscript()` が用意した状態で入っています。
+
+- `Data_collection.qmd` の最後のチャンクが `survey/survey/demo_*.html` を探して、見つかった分だけリンクを書き出します。
+- `_quarto.yml` の `resources:` が、課題のフォルダを丸ごと出力（`_manuscript`）にコピーします。jsPsych本体などのファイルも一緒にコピーされるので、リンク先のデモがそのまま動きます。
+
+```yaml
+manuscript:
+  resources:
+    - survey/survey/**
+```
+
+**課題をまだ作っていない場合は、何も表示されません**（エラーにもなりません）。課題のフォルダ名を `survey` 以外にした場合は、`_quarto.yml` の `resources:` と `Data_collection.qmd` のチャンクにあるフォルダ名も変えてください。
+
+## 7. 執筆の流れ（まとめ）
 
 1. `psyinfr::set_manuscript()` でプロジェクトを作る
-2. `notebooks/Data_collection.qmd` を書き換えて、cbat4rで調査・実験を作る（JATOSにアップロード）
+2. `notebooks/Data_collection.qmd` を書き換えて、cbat4rで調査・実験を作る（JATOSにアップロード。作った課題のデモへのリンクは、レンダーすると自動でNotebooksに並びます）
 3. データを集めて、JATOSからエクスポートしたファイルを `data/` に置く（デモデータと差し替える）
 4. `notebooks/Analysis_01.qmd` で `psyinfr::readJatos()` を使ってデータを整形し、解析する
 5. 図表のチャンクに `fig-` `tbl-` で始まるラベルとキャプションをつける
