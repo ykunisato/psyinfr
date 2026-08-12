@@ -87,7 +87,10 @@ set_ic(
 # (デフォルトでは年齢と性別を聞く)
 set_demographic(task_name = "age_gender",
                 instruction = "以下の質問にお答えください。",
-                item = extra)
+                jsPsych_version = "8.2.2",
+                output_dir = study_dir,
+                add_root_dir = FALSE,
+                overwrite = TRUE)
 
 # 利き手や職業などの追加の質問をする場合は以下を参照
 # https://github.com/cba-toolbox/cbat4r
