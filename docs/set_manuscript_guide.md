@@ -372,15 +372,18 @@ project:
 
 以下のリンクから，作成した課題を実際に動かして確認できます。
 
-- completion_code
 - ic
+- age_gender
 - qnr_mood
 - qnr_sleep
+- completion_code
 ```
+
+リンクは、`jatosify()` の `html_file_list` に書いた順（＝参加者が課題を行う順）に並びます。`html_file_list` を書き換えれば、リンクの順番もそれに合わせて変わります。リストに載っていないデモがある場合は、最後にまとめて並びます。
 
 仕組みは2つです。どちらも `set_manuscript()` が用意した状態で入っています。
 
-- `Data_collection.qmd` の最後のチャンクが `survey/survey/demo_*.html` を探して、見つかった分だけリンクを書き出します。
+- `Data_collection.qmd` の最後のチャンクが `survey/survey/demo_*.html` を探して、見つかった分だけリンクを書き出します。並び順は、同じファイル内の `html_file_list` を読み取って決めています。
 - `_quarto.yml` の `resources:` が、課題のフォルダを丸ごと出力（`_manuscript`）にコピーします。jsPsych本体などのファイルも一緒にコピーされるので、リンク先のデモがそのまま動きます。
 
 ```yaml

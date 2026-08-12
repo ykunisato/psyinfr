@@ -25,6 +25,7 @@ study_dir <- file.path(name_dir, name_dir)
 dir.create(study_dir, recursive = TRUE)
 
 ############ 同意書の作成
+# 以下の内容は、自分の研究に合わせて修正してください（XX XXの部分）
 
 ic_text <- "
 # 研究説明
@@ -69,6 +70,7 @@ XX＜自分の名前＞XX (専修大学人間科学部心理学科・４年生)�
 inquiry.experiment.kunisato@gmail.com
 "
 
+# 上記の内容をもとに同意書をjsPsychで作成するコード
 set_ic(
   task_name      = "ic",
   ic_markdown    = ic_text,
@@ -80,8 +82,18 @@ set_ic(
   overwrite = TRUE
 )
 
+############ デモグラフィックの質問
+# デモグラフィック質問をjsPsychで生成するコード
+# (デフォルトでは年齢と性別を聞く)
+set_demographic(task_name = "age_gender",
+                instruction = "以下の質問にお答えください。",
+                item = extra)
+
+# 利き手や職業などの追加の質問をする場合は以下を参照
+# https://github.com/cba-toolbox/cbat4r
 
 ############ 質問紙の作成（１）
+# 以下の選択肢と項目名はご自身の使う質問紙に合わせて変更ください。
 # 選択肢
 scale_5 <- c("全くあてはまらない", "あてはまらない", "どちらともいえない",
              "あてはまる", "非常にあてはまる")
@@ -95,6 +107,8 @@ items_mood <- data.frame(
   required = c(TRUE, TRUE, TRUE)
 )
 
+# 上で設定した質問紙をjsPsychで生成するコード
+# task_nameも使う尺度にあわせて修正
 set_qnr(
   task_name       = "qnr_mood",
   scale           = scale_5,
@@ -109,6 +123,7 @@ set_qnr(
 
 
 ############ 質問紙の作成（２）
+# 以下の選択肢と項目名はご自身の使う質問紙に合わせて変更ください。
 scale_5 <- c("全くあてはまらない", "あてはまらない", "どちらともいえない",
              "あてはまる", "非常にあてはまる")
 
@@ -119,6 +134,8 @@ items_sleep <- data.frame(
   name   = c("sleep_1", "sleep_2", "sleep_3")
 )
 
+# 上で設定した質問紙をjsPsychで生成するコード
+# task_nameも使う尺度にあわせて修正
 set_qnr(
   task_name       = "qnr_sleep",
   scale           = scale_5,
@@ -131,6 +148,7 @@ set_qnr(
 )
 
 ############ 完了コードの作成
+# 同意撤回用コードをjsPsychで生成するコード
 set_cc(
   task_name       = "completion_code",
   jsPsych_version = "8.2.2",
@@ -139,11 +157,13 @@ set_cc(
   overwrite = TRUE
 )
 
-
 ############ JATOS用にまとめる
+# JATOSで実行できる形式で出力するコード
+# html_file_listに上記で設定した"task_name.html"でリスト化する
 jatosify(
   study_title    = "survey",
   html_file_list = c("ic.html",
+                     "age_gender.html",
                      "qnr_mood.html",
                      "qnr_sleep.html",
                      "completion_code.html"),
@@ -154,10 +174,12 @@ jatosify(
 )
 ```
 
+
+<!-- 以降は変更しないてください -->
+
 ```{r}
 #| label: demo-links
-#| echo: false
-#| output: asis
+#| echo: true
 # 上のコードを実行して課題を作ってあれば，そのデモ（demo_XXX.html）へのリンクを並べる。
 # まだ作っていない（フォルダが無い）場合は，何も表示されない。
 survey_dir <- file.path("survey", "survey")
@@ -165,6 +187,20 @@ if (!dir.exists(survey_dir)) {
   survey_dir <- file.path("..", survey_dir)
 }
 demos <- sort(Sys.glob(file.path(survey_dir, "demo_*.html")))
+
+# 上のjatosify()のhtml_file_listを読み取り，参加者が課題を行う順番に並べ替える
+# （リストに無いデモは後ろに回す）。読み取れないときはファイル名順のまま。
+input <- knitr::current_input(dir = TRUE)
+if (length(demos) > 0 && !is.null(input) && file.exists(input)) {
+  src <- paste(readLines(input, warn = FALSE), collapse = "\n")
+  arg <- regmatches(src, regexpr("html_file_list\\s*=\\s*c\\([^)]*\\)", src))
+  tasks <- tryCatch(eval(parse(text = sub("^[^c]*", "", arg))),
+                    error = function(e) NULL)
+  if (length(tasks) > 0) {
+    ordered <- file.path(survey_dir, paste0("demo_", basename(tasks)))
+    demos <- c(intersect(ordered, demos), setdiff(demos, ordered))
+  }
+}
 
 if (length(demos) > 0) {
   task <- sub("^demo_", "", sub("[.]html$", "", basename(demos)))
@@ -176,8 +212,3 @@ if (length(demos) > 0) {
     "\n"))
 }
 ```
-
-## 収集したデータ
-
-JATOSからエクスポートした結果データの置き場所と，参加者数や除外の基準などを書きます。
-データの整形は`psyinfr::readJatos()`で行い，解析は`Analysis_01.qmd`以降で行います。
