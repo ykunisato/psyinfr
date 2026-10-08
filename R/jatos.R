@@ -34,6 +34,16 @@
 #'   Default `"taskName"`. If absent, the result number is used.
 #' @param response_col Name of the trial field holding the response. Default
 #'   `"response"`.
+#' @param item_cols Character vector of further trial fields to treat as
+#'   response items, in addition to `response_col`. Useful for tasks that store
+#'   their answers in custom fields, e.g.
+#'   `item_cols = c("aspect_text", "selected_adjectives")`. Each field becomes
+#'   an item named after the field.
+#' @param index_col Name of a trial field that numbers repeated items (e.g.
+#'   `"aspect_number"`). When given, `long` gets an `index` column and the
+#'   `wide` columns are suffixed with it (`aspect_text_1`, `aspect_text_2`,
+#'   ...). If an indexed item occurs more than once for a participant, the last
+#'   value is kept (it reflects corrections made by going back).
 #' @param extra_cols Character vector of trial columns to carry into `wide`
 #'   (one value per participant, the first non-missing one). For instance
 #'   `extra_cols = "id"` picks up a completion code stored in the trial.
@@ -52,12 +62,19 @@
 #' # head(d$wide)
 #' # readJatos("jatos_results_data_20260809054431.txt",
 #' #           format = "wide", extra_cols = "id")
+#' # # a task storing answers in custom fields, one set per aspect
+#' # readJatos("jatos_results_data_20261008071223.txt",
+#' #           item_cols = c("aspect_text", "selected_adjectives"),
+#' #           index_col = "aspect_number",
+#' #           extra_cols = c("id", "completion_type"))
 #' @export
 readJatos <- function(file,
                       format = c("all", "trials", "long", "wide"),
                       id_col = "workerID",
                       task_col = "taskName",
                       response_col = "response",
+                      item_cols = character(),
+                      index_col = NULL,
                       extra_cols = character(),
                       prefix = c("auto", "always", "never"),
                       sep = "|",
@@ -77,9 +94,22 @@ readJatos <- function(file,
     stop("No jsPsych data could be parsed from: ", file)
   }
 
-  trials <- .jatos_trials(results, response_col = response_col, sep = sep)
+  trials <- .jatos_trials(results, response_col = response_col,
+                          item_cols = item_cols, sep = sep)
   trials <- .jatos_set_ids(trials, id_col = id_col, task_col = task_col)
-  long <- .jatos_long(trials, response_col = response_col)
+  if (!is.null(index_col) && !index_col %in% names(trials)) {
+    warning("index_col not found in the data: ", index_col, call. = FALSE)
+    index_col <- NULL
+  }
+  long <- .jatos_long(trials, response_col = response_col,
+                      index_col = index_col)
+  no_items <- setdiff(unique(trials$.task), unique(long$task))
+  if (length(no_items) > 0) {
+    message("No response items were found for task(s): ",
+            paste(no_items, collapse = ", "),
+            ". Use item_cols (and index_col) to pick the trial fields ",
+            "holding their answers.")
+  }
   wide <- .jatos_wide(trials, long,
                       response_col = response_col,
                       extra_cols = extra_cols,
@@ -295,7 +325,7 @@ print.jatos_data <- function(x, ...) {
 }
 
 # Build the trial-level data frame; response items ride along in .items.
-.jatos_trials <- function(results, response_col, sep) {
+.jatos_trials <- function(results, response_col, item_cols, sep) {
   rows <- list()
   items <- list()
   for (i in seq_along(results)) {
@@ -309,9 +339,15 @@ print.jatos_data <- function(x, ...) {
       row <- lapply(tr, .jatos_scalar, sep = sep)
       row <- c(list(.result = i), res$meta, row)
       rows[[length(rows) + 1L]] <- row
-      items[[length(items) + 1L]] <- .jatos_items(tr[[response_col]],
-                                                  response_col = response_col,
-                                                  sep = sep)
+      it <- .jatos_items(tr[[response_col]], response_col = response_col,
+                         sep = sep)
+      for (cl in setdiff(item_cols, response_col)) {
+        val <- .jatos_scalar(tr[[cl]], sep = sep)
+        if (!(length(val) == 1 && is.na(val))) {
+          it[[cl]] <- val
+        }
+      }
+      items[[length(items) + 1L]] <- it
     }
   }
   if (length(rows) == 0) {
@@ -388,7 +424,7 @@ print.jatos_data <- function(x, ...) {
 
 # ---- reshaping ---------------------------------------------------------
 
-.jatos_long <- function(trials, response_col) {
+.jatos_long <- function(trials, response_col, index_col = NULL) {
   n <- vapply(trials$.items, length, integer(1))
   idx <- rep(seq_len(nrow(trials)), n)
   if (length(idx) == 0) {
@@ -397,6 +433,9 @@ print.jatos_data <- function(x, ...) {
                         trial_index = numeric(), item = character(),
                         value = character(), value_num = numeric(),
                         stringsAsFactors = FALSE)
+    if (!is.null(index_col)) {
+      empty$index <- numeric()
+    }
     if ("rt" %in% names(trials)) {
       empty$rt <- numeric()
     }
@@ -422,6 +461,9 @@ print.jatos_data <- function(x, ...) {
     value_num = suppressWarnings(as.numeric(value)),
     stringsAsFactors = FALSE
   )
+  if (!is.null(index_col)) {
+    out$index <- trials[[index_col]][idx]
+  }
   if ("rt" %in% names(trials)) {
     out$rt <- trials$rt[idx]
   }
@@ -452,6 +494,16 @@ print.jatos_data <- function(x, ...) {
   }
 
   cname <- .jatos_colnames(long, response_col = response_col, prefix = prefix)
+  index <- if ("index" %in% names(long)) long$index else rep(NA, nrow(long))
+  has_index <- !is.na(index)
+  cname[has_index] <- paste(cname[has_index], index[has_index], sep = "_")
+  # an indexed item is meant to be unique per participant: keep the last value
+  last <- !rev(duplicated(rev(paste(long$id, cname, sep = "\r"))))
+  keep <- !has_index | last
+  long <- long[keep, , drop = FALSE]
+  cname <- cname[keep]
+  index <- index[keep]
+
   key <- paste(long$id, cname, sep = "\r")
   occ <- stats::ave(seq_along(key), key, FUN = seq_along)
   maxocc <- tapply(occ, cname, max)
@@ -461,7 +513,7 @@ print.jatos_data <- function(x, ...) {
     cname[hit] <- paste0(cname[hit], "_", occ[hit])
   }
 
-  cols <- .jatos_col_order(cname, long$task, long$item)
+  cols <- .jatos_col_order(cname, long$task, long$item, index)
   for (cl in cols) {
     vals <- rep(NA_character_, length(ids))
     hit <- cname == cl
@@ -473,15 +525,15 @@ print.jatos_data <- function(x, ...) {
   wide
 }
 
-# Order the item columns by task (order of appearance), then by item name in
-# natural order (item_2 before item_10). Presentation order is often
-# randomised, so it is not a useful column order.
-.jatos_col_order <- function(cname, task, item) {
+# Order the item columns by task (order of appearance), then by index (if
+# any), then by item name in natural order (item_2 before item_10).
+# Presentation order is often randomised, so it is not a useful column order.
+.jatos_col_order <- function(cname, task, item, index = rep(NA, length(cname))) {
   keep <- !duplicated(cname)
   tab <- data.frame(col = cname[keep], task = task[keep], item = item[keep],
-                    stringsAsFactors = FALSE)
+                    index = index[keep], stringsAsFactors = FALSE)
   tab$task_rank <- match(tab$task, unique(task))
-  ord <- order(tab$task_rank, .jatos_natural_key(tab$item),
+  ord <- order(tab$task_rank, tab$index, .jatos_natural_key(tab$item),
                .jatos_natural_key(tab$col))
   tab$col[ord]
 }

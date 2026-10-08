@@ -10,6 +10,8 @@ readJatos(
   id_col = "workerID",
   task_col = "taskName",
   response_col = "response",
+  item_cols = character(),
+  index_col = NULL,
   extra_cols = character(),
   prefix = c("auto", "always", "never"),
   sep = "|",
@@ -32,6 +34,18 @@ Default \code{"taskName"}. If absent, the result number is used.}
 
 \item{response_col}{Name of the trial field holding the response. Default
 \code{"response"}.}
+
+\item{item_cols}{Character vector of further trial fields to treat as
+response items, in addition to \code{response_col}. Useful for tasks that store
+their answers in custom fields, e.g.
+\code{item_cols = c("aspect_text", "selected_adjectives")}. Each field becomes
+an item named after the field.}
+
+\item{index_col}{Name of a trial field that numbers repeated items (e.g.
+\code{"aspect_number"}). When given, \code{long} gets an \code{index} column and the
+\code{wide} columns are suffixed with it (\code{aspect_text_1}, \code{aspect_text_2},
+...). If an indexed item occurs more than once for a participant, the last
+value is kept (it reflects corrections made by going back).}
 
 \item{extra_cols}{Character vector of trial columns to carry into \code{wide}
 (one value per participant, the first non-missing one). For instance
@@ -83,4 +97,9 @@ along in columns prefixed with \code{jatos_}.
 # head(d$wide)
 # readJatos("jatos_results_data_20260809054431.txt",
 #           format = "wide", extra_cols = "id")
+# # a task storing answers in custom fields, one set per aspect
+# readJatos("jatos_results_data_20261008071223.txt",
+#           item_cols = c("aspect_text", "selected_adjectives"),
+#           index_col = "aspect_number",
+#           extra_cols = c("id", "completion_type"))
 }
